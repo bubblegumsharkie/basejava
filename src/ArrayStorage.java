@@ -10,6 +10,7 @@ public class ArrayStorage {
     void clear() {
         // подумать, сочетается ли с условиями и замечаниями из гитхаба
         Arrays.fill(storage, null);
+        currentAmountOfResumes = 0;
     }
 
     void save(Resume r) {
@@ -28,10 +29,12 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        return new Resume[0];
+        Resume[] presentResumes = new Resume[currentAmountOfResumes];
+        System.arraycopy(storage, 0, presentResumes, 0, currentAmountOfResumes);
+        return presentResumes;
     }
 
     int size() {
-        return 0;
+        return currentAmountOfResumes;
     }
 }
