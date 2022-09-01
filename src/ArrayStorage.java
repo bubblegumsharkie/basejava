@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * Array based storage for Resumes
@@ -19,10 +20,35 @@ public class ArrayStorage {
     }
 
     Resume get(String uuid) {
-        return null;
+        Resume resume = null;
+
+        for (int i = 0; i < currentAmountOfResumes; i++) {
+            if (Objects.equals(storage[i].uuid, uuid)) {
+                resume = storage[i];
+                break;
+            }
+        }
+        return resume;
     }
 
     void delete(String uuid) {
+        if (currentAmountOfResumes > 0) {
+            Resume[] arrayAfterRemovingSelectedResume = new Resume[10000];
+            for (int i = 0; i < currentAmountOfResumes; i++) {
+                if (Objects.equals(storage[i].uuid, uuid)) {
+                    System.out.println("Deleted the resume with uuid: " + uuid);
+                } else {
+                    arrayAfterRemovingSelectedResume[i] = storage[i];
+                }
+            }
+            arrayAfterRemovingSelectedResume = Arrays.stream(arrayAfterRemovingSelectedResume)
+                    .filter(Objects::nonNull)
+                    .toArray(Resume[]::new);
+            currentAmountOfResumes--;
+            System.arraycopy(arrayAfterRemovingSelectedResume, 0, storage, 0, currentAmountOfResumes);
+        } else {
+            System.out.println("There are currently no resumes in storage");
+        }
     }
 
     /**
