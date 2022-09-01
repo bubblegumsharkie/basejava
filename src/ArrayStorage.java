@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /**
  * Array based storage for Resumes
  */
@@ -6,6 +8,8 @@ public class ArrayStorage {
     int currentAmountOfResumes = 0;
 
     void clear() {
+        // подумать, сочетается ли с условиями и замечаниями из гитхаба
+        Arrays.fill(storage, null);
     }
 
     void save(Resume r) {
