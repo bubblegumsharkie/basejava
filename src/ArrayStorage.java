@@ -3,11 +3,14 @@
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
+    int currentAmountOfResumes = 0;
 
     void clear() {
     }
 
     void save(Resume r) {
+        storage[currentAmountOfResumes] = r;
+        currentAmountOfResumes++;
     }
 
     Resume get(String uuid) {
