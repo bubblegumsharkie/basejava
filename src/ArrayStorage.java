@@ -10,7 +10,7 @@ public class ArrayStorage {
 
     void clear() {
         // подумать, сочетается ли с условиями и замечаниями из гитхаба
-        Arrays.fill(storage, null);
+        Arrays.fill(storage, 0, currentAmountOfResumes, null);
         currentAmountOfResumes = 0;
     }
 
