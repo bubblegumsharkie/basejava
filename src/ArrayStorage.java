@@ -32,10 +32,11 @@ public class ArrayStorage {
             for (int i = 0; i < countResumes; i++) {
                 if (Objects.equals(storage[i].uuid, uuid)) {
                     System.out.println("Deleted the resume with uuid: " + uuid);
-                    storage[i] = storage[countResumes-1];
+                    storage[i] = storage[countResumes - 1];
+                    countResumes--;
+                    break;
                 }
             }
-            countResumes--;
         } else {
             System.out.println("There are currently no resumes in storage");
         }
