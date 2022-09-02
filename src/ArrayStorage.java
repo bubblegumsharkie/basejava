@@ -6,46 +6,36 @@ import java.util.Objects;
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
-    int currentAmountOfResumes = 0;
+    int countResumes = 0;
 
     void clear() {
-        // подумать, сочетается ли с условиями и замечаниями из гитхаба
-        Arrays.fill(storage, 0, currentAmountOfResumes, null);
-        currentAmountOfResumes = 0;
+        Arrays.fill(storage, 0, countResumes, null);
+        countResumes = 0;
     }
 
     void save(Resume r) {
-        storage[currentAmountOfResumes] = r;
-        currentAmountOfResumes++;
+        storage[countResumes] = r;
+        countResumes++;
     }
 
     Resume get(String uuid) {
-        Resume resume = null;
-
-        for (int i = 0; i < currentAmountOfResumes; i++) {
+        for (int i = 0; i < countResumes; i++) {
             if (Objects.equals(storage[i].uuid, uuid)) {
-                resume = storage[i];
-                break;
+                return storage[i];
             }
         }
-        return resume;
+        return null;
     }
 
     void delete(String uuid) {
-        if (currentAmountOfResumes > 0) {
-            Resume[] arrayAfterRemovingSelectedResume = new Resume[10000];
-            for (int i = 0; i < currentAmountOfResumes; i++) {
+        if (countResumes > 0) {
+            for (int i = 0; i < countResumes; i++) {
                 if (Objects.equals(storage[i].uuid, uuid)) {
                     System.out.println("Deleted the resume with uuid: " + uuid);
-                } else {
-                    arrayAfterRemovingSelectedResume[i] = storage[i];
+                    storage[i] = storage[countResumes-1];
                 }
             }
-            arrayAfterRemovingSelectedResume = Arrays.stream(arrayAfterRemovingSelectedResume)
-                    .filter(Objects::nonNull)
-                    .toArray(Resume[]::new);
-            currentAmountOfResumes--;
-            System.arraycopy(arrayAfterRemovingSelectedResume, 0, storage, 0, currentAmountOfResumes);
+            countResumes--;
         } else {
             System.out.println("There are currently no resumes in storage");
         }
@@ -55,12 +45,10 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        Resume[] presentResumes = new Resume[currentAmountOfResumes];
-        System.arraycopy(storage, 0, presentResumes, 0, currentAmountOfResumes);
-        return presentResumes;
+        return Arrays.copyOf(storage, countResumes);
     }
 
     int size() {
-        return currentAmountOfResumes;
+        return countResumes;
     }
 }
