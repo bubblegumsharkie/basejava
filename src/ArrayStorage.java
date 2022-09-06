@@ -81,7 +81,6 @@ public class ArrayStorage {
                 }
             }
         }
-//        System.out.println("No resume with uuid: " + uuid + " was found");
         return false;
     }
 }
