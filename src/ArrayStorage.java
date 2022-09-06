@@ -19,7 +19,7 @@ public class ArrayStorage {
             storage[countResumes] = r;
             countResumes++;
             System.out.println("The resume with UUID: " + r.uuid + " was successfully saved");
-        } else System.out.println("There was an error with saving resume. UUID: " + r.uuid);
+        } else System.out.println("There was an error with saving resume. Check if the storage is already full or if there is a resume with the same UUID: " + r.uuid);
 
     }
 
@@ -29,7 +29,7 @@ public class ArrayStorage {
             if (Objects.equals(storage[resumeID].uuid, uuid)) {
                 return storage[resumeID];
             }
-        } else System.out.println("There was an error with getting resume. UUID: " + uuid);
+        } else System.out.println("The resume with UUID: " + uuid + " was not found in storage");
         return null;
     }
 
@@ -48,7 +48,7 @@ public class ArrayStorage {
             storage[countResumes - 1] = null;
             countResumes--;
             System.out.println("The resume with UUID: " + uuid + " was successfully deleted");
-        }
+        } else System.out.println("There resume with UUID: " + uuid + " was not found in storage");
     }
 
     /**
