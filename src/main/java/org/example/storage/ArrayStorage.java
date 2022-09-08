@@ -9,7 +9,8 @@ import java.util.Objects;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    private final Resume[] storage = new Resume[10000];
+    protected static final int STORAGE_LIMIT = 10000;
+    private final Resume[] storage = new Resume[STORAGE_LIMIT];
     private int countResumes = 0;
 
     public void clear() {
@@ -19,40 +20,47 @@ public class ArrayStorage {
     }
 
     public void save(Resume r) {
-        if ((!checkForResume(r.getUuid())) && (storage[storage.length - 1] == null)) {
+        int index = getSearchKey(r.getUuid());
+        if (storage[storage.length - 1] != null) {
+            System.out.println("Current storage is already full. The resume with UUID: " + r.getUuid() + " was not saved");
+        } else if (index != -1) {
+            System.out.println("The resume with UUID: " + r.getUuid() + " already exists.");
+        } else {
             storage[countResumes] = r;
             countResumes++;
             System.out.println("The resume with UUID: " + r.getUuid() + " was successfully saved");
-        } else System.out.println("There was an error with saving resume. Check if the storage is already full or if there is a resume with the same UUID: " + r.getUuid());
-
-    }
-
-    public Resume get(String uuid) {
-        int resumeID = findResume(uuid);
-        if (resumeID != -1) {
-            if (Objects.equals(storage[resumeID].getUuid(), uuid)) {
-                return storage[resumeID];
-            }
-        } else System.out.println("The resume with UUID: " + uuid + " was not found in storage");
-        return null;
-    }
-
-    public void update(Resume resume) {
-        int resumeID = findResume(resume.getUuid());
-        if (resumeID != -1) {
-            storage[resumeID] = resume;
-            System.out.println("The resume with UUID: " + resume.getUuid() + " was successfully updated");
         }
     }
 
+    public Resume get(String uuid) {
+        int index = getSearchKey(uuid);
+        if (index == -1) {
+            System.out.println("The resume with UUID: " + uuid + " was not found in storage");
+            return null;
+        }
+        return storage[index];
+    }
+
+    public void update(Resume resume) {
+        int index = getSearchKey(resume.getUuid());
+        if (index == -1) {
+            System.out.println("The resume with UUID: " + resume.getUuid() + " was not found in the storage");
+            return;
+        }
+        storage[index] = resume;
+        System.out.println("The resume with UUID: " + resume.getUuid() + " was successfully updated");
+    }
+
     public void delete(String uuid) {
-        int resumeID = findResume(uuid);
-        if (resumeID != -1) {
-            storage[resumeID] = storage[countResumes - 1];
-            storage[countResumes - 1] = null;
-            countResumes--;
-            System.out.println("The resume with UUID: " + uuid + " was successfully deleted");
-        } else System.out.println("There resume with UUID: " + uuid + " was not found in storage");
+        int index = getSearchKey(uuid);
+        if (index == -1) {
+            System.out.println("There resume with UUID: " + uuid + " was not found in storage");
+            return;
+        }
+        storage[index] = storage[countResumes - 1];
+        storage[countResumes - 1] = null;
+        countResumes--;
+        System.out.println("The resume with UUID: " + uuid + " was successfully deleted");
     }
 
     /**
@@ -66,25 +74,13 @@ public class ArrayStorage {
         return countResumes;
     }
 
-    private int findResume(String uuid) {
-        if (checkForResume(uuid)) {
-            for (int i = 0; i < countResumes; i++) {
-                if (Objects.equals(storage[i].getUuid(), uuid)) {
-                    return i;
-                }
+    private int getSearchKey(String uuid) {
+        for (int i = 0; i < countResumes; i++) {
+            if (Objects.equals(storage[i].getUuid(), uuid)) {
+                return i;
             }
         }
         return -1;
     }
 
-    private boolean checkForResume(String uuid) {
-        if (countResumes > 0) {
-            for (int i = 0; i < countResumes; i++) {
-                if (Objects.equals(storage[i].getUuid(), uuid)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 }
