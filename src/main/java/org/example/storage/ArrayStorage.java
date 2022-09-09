@@ -21,7 +21,7 @@ public class ArrayStorage {
 
     public void save(Resume r) {
         int index = getSearchKey(r.getUuid());
-        if (storage[storage.length - 1] != null) {
+        if (index >= STORAGE_LIMIT) {
             System.out.println("Current storage is already full. The resume with UUID: " + r.getUuid() + " was not saved");
         } else if (index != -1) {
             System.out.println("The resume with UUID: " + r.getUuid() + " already exists.");
