@@ -16,7 +16,7 @@ public class ArrayStorage {
     public void clear() {
         Arrays.fill(storage, 0, countResumes, null);
         countResumes = 0;
-        System.out.println("org.example.model.Resume base was successfully cleared");
+        System.out.println("Resume base was successfully cleared");
     }
 
     public void save(Resume r) {
@@ -54,7 +54,7 @@ public class ArrayStorage {
     public void delete(String uuid) {
         int index = getSearchKey(uuid);
         if (index == -1) {
-            System.out.println("There resume with UUID: " + uuid + " was not found in storage");
+            System.out.println("The resume with UUID: " + uuid + " was not found in storage");
             return;
         }
         storage[index] = storage[countResumes - 1];
