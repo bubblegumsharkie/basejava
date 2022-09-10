@@ -1,4 +1,4 @@
-package org.example.model;
+package org.resumebase.model;
 
 /**
  * Initial resume class

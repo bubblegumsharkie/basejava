@@ -1,7 +1,7 @@
-package org.example;
+package org.resumebase;
 
-import org.example.model.Resume;
-import org.example.storage.ArrayStorage;
+import org.resumebase.model.Resume;
+import org.resumebase.storage.ArrayStorage;
 
 /**
  * Test for your org.example.storage.ArrayStorage implementation

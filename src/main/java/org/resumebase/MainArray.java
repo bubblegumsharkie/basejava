@@ -1,8 +1,8 @@
-package org.example;
+package org.resumebase;
 
-import org.example.model.Resume;
-import org.example.storage.ArrayStorage;
-import org.example.storage.Storage;
+import org.resumebase.model.Resume;
+import org.resumebase.storage.ArrayStorage;
+import org.resumebase.storage.Storage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
