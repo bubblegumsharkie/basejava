@@ -8,11 +8,6 @@ public class Resume implements Comparable<Resume> {
     // Unique identifier
     String uuid;
 
-    @Override
-    public String toString() {
-        return uuid;
-    }
-
     public String getUuid() {
         return uuid;
     }
@@ -37,7 +32,12 @@ public class Resume implements Comparable<Resume> {
     }
 
     @Override
+    public String toString() {
+        return uuid;
+    }
+
+    @Override
     public int compareTo(Resume o) {
-        return 0;
+        return uuid.compareTo(o.uuid);
     }
 }
