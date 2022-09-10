@@ -29,15 +29,6 @@ public class ArrayStorage extends AbstractArrayStorage {
         }
     }
 
-    public Resume get(String uuid) {
-        int index = getSearchKey(uuid);
-        if (index == -1) {
-            System.out.println("The resume with UUID: " + uuid + " was not found in storage");
-            return null;
-        }
-        return storage[index];
-    }
-
     public void update(Resume resume) {
         int index = getSearchKey(resume.getUuid());
         if (index == -1) {
@@ -71,7 +62,7 @@ public class ArrayStorage extends AbstractArrayStorage {
         return countResumes;
     }
 
-    private int getSearchKey(String uuid) {
+    protected int getSearchKey(String uuid) {
         for (int i = 0; i < countResumes; i++) {
             if (Objects.equals(storage[i].getUuid(), uuid)) {
                 return i;
