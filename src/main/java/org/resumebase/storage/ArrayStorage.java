@@ -2,19 +2,12 @@ package org.resumebase.storage;
 
 import org.resumebase.model.Resume;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 /**
  * Array based storage for Resumes
  */
 public class ArrayStorage extends AbstractArrayStorage {
-
-    public void clear() {
-        Arrays.fill(storage, 0, countResumes, null);
-        countResumes = 0;
-        System.out.println("Resume base was successfully cleared");
-    }
 
     public void save(Resume r) {
         int index = getSearchKey(r.getUuid());
@@ -49,17 +42,6 @@ public class ArrayStorage extends AbstractArrayStorage {
         storage[countResumes - 1] = null;
         countResumes--;
         System.out.println("The resume with UUID: " + uuid + " was successfully deleted");
-    }
-
-    /**
-     * @return array, contains only Resumes in storage (without null)
-     */
-    public Resume[] getAll() {
-        return Arrays.copyOf(storage, countResumes);
-    }
-
-    public int size() {
-        return countResumes;
     }
 
     protected int getSearchKey(String uuid) {

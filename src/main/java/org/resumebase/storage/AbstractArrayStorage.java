@@ -2,13 +2,19 @@ package org.resumebase.storage;
 
 import org.resumebase.model.Resume;
 
-/**
- * Array based storage for Resumes
- */
+import java.util.Arrays;
+
+
 public abstract class AbstractArrayStorage implements Storage {
     protected static final int STORAGE_LIMIT = 10000;
     protected final Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int countResumes = 0;
+
+    public void clear() {
+        Arrays.fill(storage, 0, countResumes, null);
+        countResumes = 0;
+        System.out.println("Resume base was successfully cleared");
+    }
 
     public Resume get(String uuid) {
         int index = getSearchKey(uuid);
@@ -17,6 +23,14 @@ public abstract class AbstractArrayStorage implements Storage {
             return null;
         }
         return storage[index];
+    }
+
+    public Resume[] getAll() {
+        return Arrays.copyOf(storage, countResumes);
+    }
+
+    public int size() {
+        return countResumes;
     }
 
     protected abstract int getSearchKey(String uuid);
