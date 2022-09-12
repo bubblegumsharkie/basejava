@@ -31,9 +31,9 @@ public class SortedArrayStorage extends AbstractArrayStorage {
             System.out.println("The resume with UUID: " + uuid + " was not found in storage");
             return;
         }
-        Resume[] tempStorage = new Resume[countResumes];
-        System.arraycopy(storage, index + 1, tempStorage, 0, countResumes - index);
-        System.arraycopy(tempStorage, 0, storage, index, tempStorage.length);
+        Resume[] tempStorage = new Resume[countResumes - 1];
+        System.arraycopy(storage, index + 1, tempStorage, 0, countResumes - index - 1);
+        System.arraycopy(tempStorage, 0, storage, index, tempStorage.length - 1);
         countResumes--;
         System.out.println("The resume with UUID: " + uuid + " was successfully deleted");
 
