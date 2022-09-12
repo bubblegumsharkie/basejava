@@ -9,7 +9,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     @Override
     public void save(Resume r) {
         int index = getSearchKey(r.getUuid());
-        if (index >= STORAGE_LIMIT) {
+        if (-index - 1 >= STORAGE_LIMIT) {
             System.out.println("Current storage is already full. The resume with UUID: " + r.getUuid() + " was not saved");
             return;
         }
