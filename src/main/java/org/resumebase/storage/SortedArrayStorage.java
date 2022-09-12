@@ -8,19 +8,20 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
     public void save(Resume r) {
-        //TODO: Implement save with binary insert
-    }
-
-    @Override
-    public void update(Resume resume) {
-        int index = getSearchKey(resume.getUuid());
-        if (index == -1) {
-            System.out.println("The resume with UUID: " + resume.getUuid() + " was not found in the storage");
+        int index = getSearchKey(r.getUuid());
+        if (index >= STORAGE_LIMIT) {
+            System.out.println("Current storage is already full. The resume with UUID: " + r.getUuid() + " was not saved");
             return;
         }
-        storage[index] = resume;
-        System.out.println("The resume with UUID: " + resume.getUuid() + " was successfully updated");
-
+        if (index < 0) {
+            index = -index - 1;
+            System.arraycopy(storage, index, storage, index + 1, countResumes - index);
+            storage[index] = r;
+            countResumes++;
+            System.out.println("The resume with UUID: " + r.getUuid() + " was successfully saved");
+            return;
+        }
+        System.out.println("The resume with UUID: " + r.getUuid() + " already exists.");
     }
 
     @Override
@@ -30,8 +31,9 @@ public class SortedArrayStorage extends AbstractArrayStorage {
             System.out.println("The resume with UUID: " + uuid + " was not found in storage");
             return;
         }
-        storage[index] = storage[countResumes - 1];
-        storage[countResumes - 1] = null;
+        Resume[] tempStorage = new Resume[countResumes];
+        System.arraycopy(storage, index + 1, tempStorage, 0, countResumes - index);
+        System.arraycopy(tempStorage, 0, storage, index, tempStorage.length);
         countResumes--;
         System.out.println("The resume with UUID: " + uuid + " was successfully deleted");
 

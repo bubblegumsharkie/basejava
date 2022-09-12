@@ -22,16 +22,6 @@ public class ArrayStorage extends AbstractArrayStorage {
         }
     }
 
-    public void update(Resume resume) {
-        int index = getSearchKey(resume.getUuid());
-        if (index == -1) {
-            System.out.println("The resume with UUID: " + resume.getUuid() + " was not found in the storage");
-            return;
-        }
-        storage[index] = resume;
-        System.out.println("The resume with UUID: " + resume.getUuid() + " was successfully updated");
-    }
-
     public void delete(String uuid) {
         int index = getSearchKey(uuid);
         if (index == -1) {
