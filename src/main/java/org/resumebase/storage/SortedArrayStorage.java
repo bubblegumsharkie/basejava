@@ -27,13 +27,14 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     @Override
     public void delete(String uuid) {
         int index = getSearchKey(uuid);
-        if (index == -1) {
+        if (index < 0) {
             System.out.println("The resume with UUID: " + uuid + " was not found in storage");
             return;
         }
+        index = -index;
         Resume[] tempStorage = new Resume[countResumes - 1];
         System.arraycopy(storage, index + 1, tempStorage, 0, countResumes - index - 1);
-        System.arraycopy(tempStorage, 0, storage, index, tempStorage.length - 1);
+        System.arraycopy(tempStorage, 0, storage, index, tempStorage.length);
         countResumes--;
         System.out.println("The resume with UUID: " + uuid + " was successfully deleted");
 
