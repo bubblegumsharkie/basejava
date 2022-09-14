@@ -9,29 +9,10 @@ import java.util.Objects;
  */
 public class ArrayStorage extends AbstractArrayStorage {
 
-    public void save(Resume r) {
-        int index = getSearchKey(r.getUuid());
-        if (index >= STORAGE_LIMIT) {
-            System.out.println("Current storage is already full. The resume with UUID: " + r.getUuid() + " was not saved");
-        } else if (index != -1) {
-            System.out.println("The resume with UUID: " + r.getUuid() + " already exists.");
-        } else {
-            storage[countResumes] = r;
-            countResumes++;
-            System.out.println("The resume with UUID: " + r.getUuid() + " was successfully saved");
-        }
-    }
-
-    public void delete(String uuid) {
-        int index = getSearchKey(uuid);
-        if (index == -1) {
-            System.out.println("The resume with UUID: " + uuid + " was not found in storage");
-            return;
-        }
+    @Override
+    protected void deleteElementById(int index) {
         storage[index] = storage[countResumes - 1];
         storage[countResumes - 1] = null;
-        countResumes--;
-        System.out.println("The resume with UUID: " + uuid + " was successfully deleted");
     }
 
     protected int getSearchKey(String uuid) {
@@ -43,4 +24,8 @@ public class ArrayStorage extends AbstractArrayStorage {
         return -1;
     }
 
+    @Override
+    protected void saveElement(Resume r, int index) {
+        storage[countResumes] = r;
+    }
 }

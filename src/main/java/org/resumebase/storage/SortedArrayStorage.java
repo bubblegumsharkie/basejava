@@ -7,37 +7,8 @@ import java.util.Arrays;
 public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
-    public void save(Resume r) {
-        int index = getSearchKey(r.getUuid());
-        if (-index - 1 >= STORAGE_LIMIT) {
-            System.out.println("Current storage is already full. The resume with UUID: " + r.getUuid() + " was not saved");
-            return;
-        }
-        if (index < 0) {
-            index = -index - 1;
-            System.arraycopy(storage, index, storage, index + 1, countResumes - index);
-            storage[index] = r;
-            countResumes++;
-            System.out.println("The resume with UUID: " + r.getUuid() + " was successfully saved");
-            return;
-        }
-        System.out.println("The resume with UUID: " + r.getUuid() + " already exists.");
-    }
-
-    @Override
-    public void delete(String uuid) {
-        int index = getSearchKey(uuid);
-        if (index < 0) {
-            System.out.println("The resume with UUID: " + uuid + " was not found in storage");
-            return;
-        }
-        index = -index;
-        Resume[] tempStorage = new Resume[countResumes - 1];
-        System.arraycopy(storage, index + 1, tempStorage, 0, countResumes - index - 1);
-        System.arraycopy(tempStorage, 0, storage, index, tempStorage.length);
-        countResumes--;
-        System.out.println("The resume with UUID: " + uuid + " was successfully deleted");
-
+    protected void deleteElementById(int index) {
+        System.arraycopy(storage, index+1, storage, index, countResumes -index -1);
     }
 
     @Override
@@ -45,5 +16,12 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         Resume searchKey = new Resume();
         searchKey.setUuid(uuid);
         return Arrays.binarySearch(storage, 0, countResumes, searchKey);
+    }
+
+    @Override
+    protected void saveElement(Resume r, int index) {
+        index = -index - 1;
+        System.arraycopy(storage, index, storage, index + 1, countResumes - index);
+        storage[index] = r;
     }
 }
