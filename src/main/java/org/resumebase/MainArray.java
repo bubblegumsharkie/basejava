@@ -29,8 +29,7 @@ public class MainArray {
             if (params.length == 2) {
                 uuid = params[1].intern();
             }
-            r = new Resume();
-            r.setUuid(uuid);
+            r = new Resume(uuid);
             switch (params[0]) {
                 case "list":
                     printAll();
