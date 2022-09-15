@@ -10,13 +10,13 @@ public abstract class AbstractArrayStorage implements Storage {
     protected final Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int countResumes = 0;
 
-    public void clear() {
+    public final void clear() {
         Arrays.fill(storage, 0, countResumes, null);
         countResumes = 0;
         System.out.println("Resume base was successfully cleared");
     }
 
-    public void save(Resume r) {
+    public final void save(Resume r) {
         int index = getSearchKey(r.getUuid());
         if (size() == STORAGE_LIMIT) {
             System.out.println("Current storage is already full. The resume with UUID: " + r.getUuid() + " was not saved");
@@ -29,7 +29,7 @@ public abstract class AbstractArrayStorage implements Storage {
         }
     }
 
-    public void delete(String uuid) {
+    public final void delete(String uuid) {
         int index = getSearchKey(uuid);
         if (index < 0) {
             System.out.println("The resume with UUID: " + uuid + " was not found in storage");
@@ -40,7 +40,7 @@ public abstract class AbstractArrayStorage implements Storage {
         System.out.println("The resume with UUID: " + uuid + " was successfully deleted");
     }
 
-    public Resume get(String uuid) {
+    public final Resume get(String uuid) {
         int index = getSearchKey(uuid);
         if (index == -1) {
             System.out.println("The resume with UUID: " + uuid + " was not found in storage");
@@ -49,7 +49,7 @@ public abstract class AbstractArrayStorage implements Storage {
         return storage[index];
     }
 
-    public void update(Resume resume) {
+    public final void update(Resume resume) {
         int index = getSearchKey(resume.getUuid());
         if (index == -1) {
             System.out.println("The resume with UUID: " + resume.getUuid() + " was not found in the storage");
@@ -60,11 +60,11 @@ public abstract class AbstractArrayStorage implements Storage {
 
     }
 
-    public Resume[] getAll() {
+    public final Resume[] getAll() {
         return Arrays.copyOf(storage, countResumes);
     }
 
-    public int size() {
+    public final int size() {
         return countResumes;
     }
 
