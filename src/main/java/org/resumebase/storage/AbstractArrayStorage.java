@@ -1,5 +1,8 @@
 package org.resumebase.storage;
 
+import org.resumebase.exceptions.ExistStorageException;
+import org.resumebase.exceptions.NotExistStorageException;
+import org.resumebase.exceptions.StorageException;
 import org.resumebase.model.Resume;
 
 import java.util.Arrays;
@@ -19,9 +22,9 @@ public abstract class AbstractArrayStorage implements Storage {
     public final void save(Resume r) {
         int index = getSearchKey(r.getUuid());
         if (size() == STORAGE_LIMIT) {
-            System.out.println("Current storage is already full. The resume with UUID: " + r.getUuid() + " was not saved");
+            throw new StorageException("Storage is already full", r.getUuid());
         } else if (index >= 0) {
-            System.out.println("The resume with UUID: " + r.getUuid() + " already exists.");
+            throw new ExistStorageException(r.getUuid());
         } else {
             saveElement(r, index);
             countResumes++;
@@ -32,8 +35,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public final void delete(String uuid) {
         int index = getSearchKey(uuid);
         if (index < 0) {
-            System.out.println("The resume with UUID: " + uuid + " was not found in storage");
-            return;
+            throw new NotExistStorageException(uuid);
         }
         deleteElementById(index);
         countResumes--;
@@ -43,8 +45,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public final Resume get(String uuid) {
         int index = getSearchKey(uuid);
         if (index == -1) {
-            System.out.println("The resume with UUID: " + uuid + " was not found in storage");
-            return null;
+            throw new NotExistStorageException(uuid);
         }
         return storage[index];
     }
@@ -52,8 +53,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public final void update(Resume resume) {
         int index = getSearchKey(resume.getUuid());
         if (index == -1) {
-            System.out.println("The resume with UUID: " + resume.getUuid() + " was not found in the storage");
-            return;
+            throw new NotExistStorageException(resume.getUuid());
         }
         storage[index] = resume;
         System.out.println("The resume with UUID: " + resume.getUuid() + " was successfully updated");
