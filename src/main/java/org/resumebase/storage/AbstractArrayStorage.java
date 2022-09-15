@@ -74,5 +74,4 @@ public abstract class AbstractArrayStorage implements Storage {
 
     protected abstract void deleteElementById(int index);
 
-
 }
