@@ -52,7 +52,7 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public final void update(Resume resume) {
         int index = getSearchKey(resume.getUuid());
-        if (index == -1) {
+        if (index < 0) {
             throw new NotExistStorageException(resume.getUuid());
         }
         storage[index] = resume;
