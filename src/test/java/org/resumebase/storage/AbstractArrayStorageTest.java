@@ -70,10 +70,6 @@ public abstract class AbstractArrayStorageTest {
         assertGet(RESUME_3);
     }
 
-    private void assertGet(Resume resume) {
-        Assertions.assertEquals(resume, storage.get(resume.getUuid()));
-    }
-
     @Test
     void getNotExist() {
         Assertions.assertThrows(NotExistStorageException.class, () -> storage.get(UUID_4));
@@ -101,10 +97,6 @@ public abstract class AbstractArrayStorageTest {
         assertSize(3);
     }
 
-    private void assertSize(int size) {
-        Assertions.assertEquals(size, storage.size());
-    }
-
     @Test
     void storageOverflow() {
         storage.clear();
@@ -119,4 +111,13 @@ public abstract class AbstractArrayStorageTest {
             storage.save(new Resume());
         });
     }
+
+    private void assertSize(int size) {
+        Assertions.assertEquals(size, storage.size());
+    }
+
+    private void assertGet(Resume resume) {
+        Assertions.assertEquals(resume, storage.get(resume.getUuid()));
+    }
+
 }
