@@ -56,6 +56,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         System.out.println("Resume base was successfully cleared");
     }
 
+    @Override
+    protected boolean indexExists(int index) {
+        return index >= 0;
+    }
+
     protected abstract int getSearchKey(String uuid);
 
     protected abstract void saveElement(Resume r, int index);
