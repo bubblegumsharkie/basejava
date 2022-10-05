@@ -45,10 +45,10 @@ public abstract class AbstractStorage implements Storage {
     private Integer getIndexFromBase(String uuid, boolean mustExist) {
         Integer index = getSearchKey(uuid);
         boolean boo = indexExists(index);
-        if (!boo && mustExist) {
-            throw new NotExistStorageException(uuid);
-        } else if (indexExists(index) && !mustExist) {
+        if (boo && !mustExist) {
             throw new ExistStorageException(uuid);
+        } else if (!boo && mustExist) {
+            throw new NotExistStorageException(uuid);
         }
         return index;
     }

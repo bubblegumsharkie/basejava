@@ -31,7 +31,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected void saveToBase(Resume resume, Integer index) {
-        storage.add(index, resume);
+        storage.add(resume);
     }
 
     @Override
@@ -46,13 +46,12 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected boolean indexExists(Integer index) {
-        boolean boo = index == null;
-        return boo;
+        return index != null;
     }
 
     @Override
     protected void deleteFromBase(Integer index) {
-        storage.remove(index);
+        storage.remove(index.intValue());
     }
 
     @Override
@@ -62,7 +61,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     public Resume[] getAll() {
-        return storage.toArray(new Resume[storage.size()]);
+        return storage.toArray(new Resume[0]);
     }
 
     @Override

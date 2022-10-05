@@ -99,6 +99,10 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     void storageOverflow() {
+
+        if (storage.getClass().getSimpleName().equals("ListStorage")) {
+            System.out.println("List storage can't be overflowed");
+        }
         storage.clear();
         Assertions.assertThrows(StorageException.class, () -> {
             try {
