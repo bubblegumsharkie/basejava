@@ -6,50 +6,50 @@ import org.resumebase.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
 
-    protected abstract int getSearchKey(String uuid);
+    protected abstract Integer getSearchKey(String uuid);
 
     protected abstract void saveElement(Resume r, int index);
 
     protected abstract void deleteElementById(int index);
 
-    protected abstract void saveToBase(Resume resume, int index);
+    protected abstract void saveToBase(Resume resume, Integer index);
 
-    protected abstract Resume getFromBase(int index);
+    protected abstract Resume getFromBase(Integer index);
 
-    protected abstract void updateToBase(Resume resume, int index);
+    protected abstract void updateToBase(Resume resume, Integer index);
 
+    protected abstract boolean indexExists(Integer index);
 
-    protected abstract void deleteFromBase(int index);
+    protected abstract void deleteFromBase(Integer index);
 
-    public void save(Resume resume) {
-        int index = getIndexFromBase(resume.getUuid(), false);
+    public final void save(Resume resume) {
+        Integer index = getIndexFromBase(resume.getUuid(), false);
         saveToBase(resume, index);
     }
 
-    public Resume get(String uuid) {
+    public final Resume get(String uuid) {
         int index = getIndexFromBase(uuid, true);
         return getFromBase(index);
     }
 
-    public void update(Resume resume) {
+    public final void update(Resume resume) {
         int index = getIndexFromBase(resume.getUuid(), true);
         updateToBase(resume, index);
     }
 
-    public void delete(String uuid) {
+    public final void delete(String uuid) {
         int index = getIndexFromBase(uuid, true);
         deleteFromBase(index);
     }
 
-    private int getIndexFromBase(String uuid, boolean mustExist) {
-        int index = getSearchKey(uuid);
-        if (!indexExists(index) && mustExist) {
+    private Integer getIndexFromBase(String uuid, boolean mustExist) {
+        Integer index = getSearchKey(uuid);
+        boolean boo = indexExists(index);
+        if (!boo && mustExist) {
             throw new NotExistStorageException(uuid);
         } else if (indexExists(index) && !mustExist) {
             throw new ExistStorageException(uuid);
         }
         return index;
     }
-
-    protected abstract boolean indexExists(int index);
 }

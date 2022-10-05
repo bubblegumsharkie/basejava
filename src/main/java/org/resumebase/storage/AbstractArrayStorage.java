@@ -12,7 +12,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected int countResumes = 0;
 
     @Override
-    protected void saveToBase(Resume resume, int index) {
+    protected void saveToBase(Resume resume, Integer index) {
         if (size() == STORAGE_LIMIT) {
             throw new StorageException("Storage is already full", resume.getUuid());
         } else {
@@ -23,19 +23,19 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getFromBase(int index) {
+    protected Resume getFromBase(Integer index) {
         return storage[index];
     }
 
 
     @Override
-    protected void updateToBase(Resume resume, int index) {
+    protected void updateToBase(Resume resume, Integer index) {
         storage[index] = resume;
         System.out.println("The resume with UUID: " + resume.getUuid() + " was successfully updated");
     }
 
     @Override
-    protected void deleteFromBase(int index) {
+    protected void deleteFromBase(Integer index) {
         String deletedResumeUUID = storage[index].getUuid();
         deleteElementById(index);
         countResumes--;
@@ -57,11 +57,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean indexExists(int index) {
+    protected boolean indexExists(Integer index) {
         return index >= 0;
     }
 
-    protected abstract int getSearchKey(String uuid);
+    protected abstract Integer getSearchKey(String uuid);
 
     protected abstract void saveElement(Resume r, int index);
 
