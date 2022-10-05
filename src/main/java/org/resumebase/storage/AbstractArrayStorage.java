@@ -1,63 +1,45 @@
 package org.resumebase.storage;
 
-import org.resumebase.exceptions.ExistStorageException;
-import org.resumebase.exceptions.NotExistStorageException;
 import org.resumebase.exceptions.StorageException;
 import org.resumebase.model.Resume;
 
 import java.util.Arrays;
 
 
-public abstract class AbstractArrayStorage implements Storage {
+public abstract class AbstractArrayStorage extends AbstractStorage {
     protected static final int STORAGE_LIMIT = 10000;
     protected final Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int countResumes = 0;
 
-    public final void clear() {
-        Arrays.fill(storage, 0, countResumes, null);
-        countResumes = 0;
-        System.out.println("Resume base was successfully cleared");
-    }
-
-    public final void save(Resume r) {
-        int index = getSearchKey(r.getUuid());
+    @Override
+    protected void saveToBase(Resume resume, int index) {
         if (size() == STORAGE_LIMIT) {
-            throw new StorageException("Storage is already full", r.getUuid());
-        } else if (index >= 0) {
-            throw new ExistStorageException(r.getUuid());
+            throw new StorageException("Storage is already full", resume.getUuid());
         } else {
-            saveElement(r, index);
+            saveElement(resume, index);
             countResumes++;
-            System.out.println("The resume with UUID: " + r.getUuid() + " was successfully saved");
+            System.out.println("The resume with UUID: " + resume.getUuid() + " was successfully saved");
         }
     }
 
-    public final void delete(String uuid) {
-        int index = getSearchKey(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-        deleteElementById(index);
-        countResumes--;
-        System.out.println("The resume with UUID: " + uuid + " was successfully deleted");
-    }
-
-    public final Resume get(String uuid) {
-        int index = getSearchKey(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
+    @Override
+    protected Resume getFromBase(int index) {
         return storage[index];
     }
 
-    public final void update(Resume resume) {
-        int index = getSearchKey(resume.getUuid());
-        if (index < 0) {
-            throw new NotExistStorageException(resume.getUuid());
-        }
+
+    @Override
+    protected void updateToBase(Resume resume, int index) {
         storage[index] = resume;
         System.out.println("The resume with UUID: " + resume.getUuid() + " was successfully updated");
+    }
 
+    @Override
+    protected void deleteFromBase(int index) {
+        String deletedResumeUUID = storage[index].getUuid();
+        deleteElementById(index);
+        countResumes--;
+        System.out.println("The resume with UUID: " + deletedResumeUUID + " was successfully deleted");
     }
 
     public final Resume[] getAll() {
@@ -66,6 +48,12 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public final int size() {
         return countResumes;
+    }
+
+    public final void clear() {
+        Arrays.fill(storage, 0, countResumes, null);
+        countResumes = 0;
+        System.out.println("Resume base was successfully cleared");
     }
 
     protected abstract int getSearchKey(String uuid);
