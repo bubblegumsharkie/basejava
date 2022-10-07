@@ -25,7 +25,7 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void saveElement(Resume r, int index) {
+    protected void saveElement(Resume r, int searchKey) {
         storage[countResumes] = r;
     }
 }

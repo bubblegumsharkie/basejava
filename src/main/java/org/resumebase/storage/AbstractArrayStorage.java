@@ -12,32 +12,32 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected int countResumes = 0;
 
     @Override
-    protected void saveToBase(Resume resume, Integer index) {
+    protected void doSave(Resume resume, Object searchKey) {
         if (size() == STORAGE_LIMIT) {
             throw new StorageException("Storage is already full", resume.getUuid());
         } else {
-            saveElement(resume, index);
+            saveElement(resume, (Integer) searchKey);
             countResumes++;
             System.out.println("The resume with UUID: " + resume.getUuid() + " was successfully saved");
         }
     }
 
     @Override
-    protected Resume getFromBase(Integer index) {
-        return storage[index];
+    protected Resume doGet(Object searchKey) {
+        return storage[(int) searchKey];
     }
 
 
     @Override
-    protected void updateToBase(Resume resume, Integer index) {
-        storage[index] = resume;
+    protected void doUpdate(Resume resume, Object searchKey) {
+        storage[(int) searchKey] = resume;
         System.out.println("The resume with UUID: " + resume.getUuid() + " was successfully updated");
     }
 
     @Override
-    protected void deleteFromBase(Integer index) {
-        String deletedResumeUUID = storage[index].getUuid();
-        deleteElementById(index);
+    protected void doDelete(Object searchKey) {
+        String deletedResumeUUID = storage[(int) searchKey].getUuid();
+        deleteElementById((Integer) searchKey);
         countResumes--;
         System.out.println("The resume with UUID: " + deletedResumeUUID + " was successfully deleted");
     }
@@ -57,13 +57,13 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean indexExists(Integer index) {
-        return index >= 0;
+    protected boolean isExisting(Object searchKey) {
+        return (Integer) searchKey >= 0;
     }
 
     protected abstract Integer getSearchKey(String uuid);
 
-    protected abstract void saveElement(Resume r, int index);
+    protected abstract void saveElement(Resume r, int searchKey);
 
     protected abstract void deleteElementById(int index);
 

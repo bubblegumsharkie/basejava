@@ -6,50 +6,53 @@ import org.resumebase.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
 
-    protected abstract Integer getSearchKey(String uuid);
+    protected abstract Object getSearchKey(String uuid);
 
-    protected abstract void saveElement(Resume r, int index);
+    protected abstract void saveElement(Resume r, int searchKey);
 
-    protected abstract void deleteElementById(int index);
+    protected abstract void doSave(Resume resume, Object searchKey);
 
-    protected abstract void saveToBase(Resume resume, Integer index);
+    protected abstract Resume doGet(Object searchKey);
 
-    protected abstract Resume getFromBase(Integer index);
+    protected abstract void doUpdate(Resume resume, Object searchKey);
 
-    protected abstract void updateToBase(Resume resume, Integer index);
+    protected abstract boolean isExisting(Object searchKey);
 
-    protected abstract boolean indexExists(Integer index);
-
-    protected abstract void deleteFromBase(Integer index);
+    protected abstract void doDelete(Object searchKey);
 
     public final void save(Resume resume) {
-        Integer index = getIndexFromBase(resume.getUuid(), false);
-        saveToBase(resume, index);
+        Object index = getNotExistingSearchKey(resume.getUuid());
+        doSave(resume, index);
     }
 
     public final Resume get(String uuid) {
-        int index = getIndexFromBase(uuid, true);
-        return getFromBase(index);
+        Object index = getExistingSearchKey(uuid);
+        return doGet(index);
     }
 
     public final void update(Resume resume) {
-        int index = getIndexFromBase(resume.getUuid(), true);
-        updateToBase(resume, index);
+        Object index = getExistingSearchKey(resume.getUuid());
+        doUpdate(resume, index);
     }
 
     public final void delete(String uuid) {
-        int index = getIndexFromBase(uuid, true);
-        deleteFromBase(index);
+        Object index = getExistingSearchKey(uuid);
+        doDelete(index);
     }
 
-    private Integer getIndexFromBase(String uuid, boolean mustExist) {
-        Integer index = getSearchKey(uuid);
-        boolean boo = indexExists(index);
-        if (boo && !mustExist) {
-            throw new ExistStorageException(uuid);
-        } else if (!boo && mustExist) {
+    private Object getExistingSearchKey(String uuid) {
+        Object searchKey = getSearchKey(uuid);
+        if (!isExisting(searchKey)) {
             throw new NotExistStorageException(uuid);
         }
-        return index;
+        return searchKey;
+    }
+
+    private Object getNotExistingSearchKey(String uuid) {
+        Object searchKey = getSearchKey(uuid);
+        if (isExisting(searchKey)) {
+            throw new ExistStorageException(uuid);
+        }
+        return searchKey;
     }
 }
