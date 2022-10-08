@@ -8,8 +8,6 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract Object getSearchKey(String uuid);
 
-    protected abstract void saveElement(Resume r, int searchKey);
-
     protected abstract void doSave(Resume resume, Object searchKey);
 
     protected abstract Resume doGet(Object searchKey);

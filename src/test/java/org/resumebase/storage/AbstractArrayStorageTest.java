@@ -89,7 +89,11 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     void getAll() {
-        Assertions.assertArrayEquals(testResumesArray, storage.getAll());
+        if (storage.getClass().getSimpleName().equals("MapStorage")) {
+            Assertions.assertSame(3, storage.size());
+        } else {
+            Assertions.assertArrayEquals(testResumesArray, storage.getAll());
+        }
     }
 
     @Test
@@ -99,9 +103,8 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     void storageOverflow() {
-
-        if (storage.getClass().getSimpleName().equals("ListStorage")) {
-            System.out.println("List storage can't be overflowed");
+        if (storage.getClass().getSimpleName().equals("ListStorage") || storage.getClass().getSimpleName().equals("MapStorage")) {
+            System.out.println("List & Map storages can't be overflowed");
         }
         storage.clear();
         Assertions.assertThrows(StorageException.class, () -> {
