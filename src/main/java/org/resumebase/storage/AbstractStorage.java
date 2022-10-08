@@ -21,23 +21,23 @@ public abstract class AbstractStorage implements Storage {
     protected abstract void doDelete(Object searchKey);
 
     public final void save(Resume resume) {
-        Object index = getNotExistingSearchKey(resume.getUuid());
-        doSave(resume, index);
+        Object searchKey = getNotExistingSearchKey(resume.getUuid());
+        doSave(resume, searchKey);
     }
 
     public final Resume get(String uuid) {
-        Object index = getExistingSearchKey(uuid);
-        return doGet(index);
+        Object searchKey = getExistingSearchKey(uuid);
+        return doGet(searchKey);
     }
 
     public final void update(Resume resume) {
-        Object index = getExistingSearchKey(resume.getUuid());
-        doUpdate(resume, index);
+        Object searchKey = getExistingSearchKey(resume.getUuid());
+        doUpdate(resume, searchKey);
     }
 
     public final void delete(String uuid) {
-        Object index = getExistingSearchKey(uuid);
-        doDelete(index);
+        Object searchKey = getExistingSearchKey(uuid);
+        doDelete(searchKey);
     }
 
     private Object getExistingSearchKey(String uuid) {
