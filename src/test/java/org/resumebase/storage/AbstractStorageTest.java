@@ -8,7 +8,7 @@ import org.resumebase.exceptions.NotExistStorageException;
 import org.resumebase.exceptions.StorageException;
 import org.resumebase.model.Resume;
 
-public abstract class AbstractArrayStorageTest {
+public abstract class AbstractStorageTest {
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
@@ -20,7 +20,7 @@ public abstract class AbstractArrayStorageTest {
     private final Storage storage;
     private final Resume[] testResumesArray = new Resume[]{RESUME_1, RESUME_2, RESUME_3};
 
-    protected AbstractArrayStorageTest(Storage storage) {
+    protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
     }
 
