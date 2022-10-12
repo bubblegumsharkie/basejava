@@ -3,6 +3,7 @@ package org.resumebase.storage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledIf;
 import org.resumebase.exceptions.ExistStorageException;
 import org.resumebase.exceptions.NotExistStorageException;
 import org.resumebase.exceptions.StorageException;
@@ -22,6 +23,14 @@ public abstract class AbstractStorageTest {
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
+    }
+
+    private boolean ignoreOverflowTestCondition() {
+        if (storage.getClass().getSimpleName().equals("ListStorage") || storage.getClass().getSimpleName().equals("MapStorage")) {
+            System.out.println("List & Map storages can't be overflowed");
+            return true;
+        }
+        return false;
     }
 
     @BeforeEach
@@ -102,10 +111,8 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
+    @DisabledIf("ignoreOverflowTestCondition")
     void storageOverflow() {
-        if (storage.getClass().getSimpleName().equals("ListStorage") || storage.getClass().getSimpleName().equals("MapStorage")) {
-            System.out.println("List & Map storages can't be overflowed");
-        }
         storage.clear();
         Assertions.assertThrows(StorageException.class, () -> {
             try {
