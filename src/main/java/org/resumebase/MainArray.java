@@ -20,16 +20,19 @@ public class MainArray {
         Resume r;
         while (true) {
             System.out.print("Введите одну из команд - (list | size | save uuid | delete uuid | get uuid | update uuid | clear | exit): ");
-            String[] params = reader.readLine().trim().toLowerCase().split(" ");
-            if (params.length < 1 || params.length > 2) {
+            String[] params = reader.readLine().trim().split(" ");
+            if (params.length < 1 || params.length > 4) {
                 System.out.println("Неверная команда.");
                 continue;
             }
             String uuid = null;
-            if (params.length == 2) {
-                uuid = params[1].intern();
+            String fullName = null;
+            if (params.length == 4) {
+                uuid = params[1].intern().toLowerCase();
+                fullName = params[2].intern() + " " + params[3].intern();
+                System.out.println("UUID: " + uuid + ", fullName: " + fullName);
             }
-            r = new Resume(uuid);
+            r = new Resume(uuid, fullName);
             switch (params[0]) {
                 case "list":
                     printAll();
@@ -71,7 +74,7 @@ public class MainArray {
             System.out.println("Empty");
         } else {
             for (Resume r : all) {
-                System.out.println(r);
+                System.out.println(r.toString());
             }
         }
         System.out.println("----------------------------");
