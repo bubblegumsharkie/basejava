@@ -2,6 +2,8 @@ package org.resumebase.storage;
 
 import org.resumebase.model.Resume;
 
+import java.util.List;
+
 /**
  * Array based storage for Resumes
  */
@@ -17,8 +19,7 @@ public interface Storage {
 
     void delete(String uuid);
 
-    Resume[] getAll();
-
     int size();
 
+    List<Resume> getAllSorted();
 }

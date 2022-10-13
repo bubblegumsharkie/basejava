@@ -9,17 +9,23 @@ import org.resumebase.exceptions.NotExistStorageException;
 import org.resumebase.exceptions.StorageException;
 import org.resumebase.model.Resume;
 
+import java.util.List;
+
 public abstract class AbstractStorageTest {
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
     private static final String UUID_4 = "uuid4";
-    private static final Resume RESUME_1 = new Resume(UUID_1, "Name 1");
-    private static final Resume RESUME_2 = new Resume(UUID_2, "Name 2");
-    private static final Resume RESUME_3 = new Resume(UUID_3, "Name 2");
-    private static final Resume RESUME_4 = new Resume(UUID_4, "Name 3");
+    private static final String NAME_1 = "Name 1";
+    private static final String NAME_2 = "Name 2";
+    private static final String NAME_3 = "Name 3";
+    private static final String NAME_4 = "Name 4";
+    private static final Resume RESUME_1 = new Resume(UUID_1, NAME_1);
+    private static final Resume RESUME_2 = new Resume(UUID_2, NAME_2);
+    private static final Resume RESUME_3 = new Resume(UUID_3, NAME_3);
+    private static final Resume RESUME_4 = new Resume(UUID_4, NAME_4);
     private final Storage storage;
-    private final Resume[] testResumesArray = new Resume[]{RESUME_1, RESUME_2, RESUME_3};
+    private final List<Resume> testSortedResumesArray = List.of(RESUME_1, RESUME_2, RESUME_3);
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -45,12 +51,12 @@ public abstract class AbstractStorageTest {
     void clear() {
         storage.clear();
         assertSize(0);
-        Assertions.assertArrayEquals(new Resume[0], storage.getAll());
+        Assertions.assertEquals(List.of(), storage.getAllSorted());
     }
 
     @Test
     void save() {
-        storage.save(new Resume(UUID_4, ""));
+        storage.save(new Resume(UUID_4, NAME_4));
         assertGet(RESUME_4);
         assertSize(4);
     }
@@ -97,12 +103,9 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    void getAll() {
-        if (storage.getClass().getSimpleName().equals("MapStorage")) {
-            Assertions.assertSame(3, storage.size());
-        } else {
-            Assertions.assertArrayEquals(testResumesArray, storage.getAll());
-        }
+    void getAllSorted() {
+        Assertions.assertEquals(3, storage.size());
+        Assertions.assertEquals(testSortedResumesArray, storage.getAllSorted());
     }
 
     @Test
@@ -111,7 +114,7 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    @DisabledIf("ignoreOverflowTestCondition")
+    @DisabledIf(value = "ignoreOverflowTestCondition", disabledReason = "The overflow test is disabled for Map and List realisations")
     void storageOverflow() {
         storage.clear();
         Assertions.assertThrows(StorageException.class, () -> {

@@ -2,7 +2,9 @@ package org.resumebase.storage;
 
 import org.resumebase.model.Resume;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class MapStorage extends AbstractStorage {
 
@@ -44,12 +46,14 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        return storage.values().toArray(new Resume[0]);
+    public int size() {
+        return storage.size();
     }
 
     @Override
-    public int size() {
-        return storage.size();
+    public List<Resume> getAllSorted() {
+        ArrayList<Resume> sortedStorage = new ArrayList<>(storage.values());
+        doSort(sortedStorage);
+        return sortedStorage;
     }
 }

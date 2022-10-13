@@ -49,13 +49,15 @@ public class ListStorage extends AbstractStorage {
         storage.clear();
     }
 
-    @Override
-    public Resume[] getAll() {
-        return storage.toArray(new Resume[0]);
-    }
 
     @Override
     public int size() {
         return storage.size();
+    }
+
+    @Override
+    public List<Resume> getAllSorted() {
+        doSort(storage);
+        return storage;
     }
 }
