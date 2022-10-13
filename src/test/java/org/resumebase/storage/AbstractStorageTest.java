@@ -32,13 +32,9 @@ public abstract class AbstractStorageTest {
     }
 
     private boolean ignoreOverflowTestCondition() {
-        if (storage.getClass().getSimpleName().equals("ListStorage")
-                || storage.getClass().getSimpleName().equals("MapUUIDStorage")
-                || storage.getClass().getSimpleName().equals("MapResumeStorage")) {
-            System.out.println("List & Map storages can't be overflowed");
-            return true;
-        }
-        return false;
+        return storage.getClass().equals(ListStorage.class)
+                || storage.getClass().equals(MapUUIDStorage.class)
+                || storage.getClass().equals(MapResumeStorage.class);
     }
 
     @BeforeEach
