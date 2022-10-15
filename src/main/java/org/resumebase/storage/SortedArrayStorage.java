@@ -2,8 +2,10 @@ package org.resumebase.storage;
 
 import org.resumebase.model.Resume;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
 
@@ -18,6 +20,11 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     protected Integer getSearchKey(String uuid) {
         Resume searchKey = new Resume(uuid, "");
         return Arrays.binarySearch(storage, 0, countResumes, searchKey, RESUME_COMPARATOR);
+    }
+
+    @Override
+    public ArrayList<Resume> getResumes() {
+        return new ArrayList<>(List.of(Arrays.copyOf(storage, countResumes)));
     }
 
     @Override

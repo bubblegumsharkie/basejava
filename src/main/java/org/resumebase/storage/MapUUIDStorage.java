@@ -4,7 +4,6 @@ import org.resumebase.model.Resume;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class MapUUIDStorage extends AbstractStorage {
 
@@ -41,6 +40,11 @@ public class MapUUIDStorage extends AbstractStorage {
     }
 
     @Override
+    public ArrayList<Resume> getResumes() {
+        return new ArrayList<>(storage.values());
+    }
+
+    @Override
     public void clear() {
         storage.clear();
     }
@@ -50,10 +54,4 @@ public class MapUUIDStorage extends AbstractStorage {
         return storage.size();
     }
 
-    @Override
-    public List<Resume> getAllSorted() {
-        ArrayList<Resume> sortedStorage = new ArrayList<>(storage.values());
-        doSort(sortedStorage);
-        return sortedStorage;
-    }
 }

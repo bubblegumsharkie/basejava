@@ -2,6 +2,9 @@ package org.resumebase.storage;
 
 import org.resumebase.model.Resume;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -22,6 +25,11 @@ public class ArrayStorage extends AbstractArrayStorage {
             }
         }
         return -1;
+    }
+
+    @Override
+    public ArrayList<Resume> getResumes() {
+        return new ArrayList<>(List.of(Arrays.copyOf(storage, countResumes)));
     }
 
     @Override

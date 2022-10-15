@@ -3,9 +3,7 @@ package org.resumebase.storage;
 import org.resumebase.exceptions.StorageException;
 import org.resumebase.model.Resume;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
@@ -42,13 +40,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         deleteElementById((Integer) searchKey);
         countResumes--;
         System.out.println("The resume with UUID: " + deletedResumeUUID + " was successfully deleted");
-    }
-
-
-    public final List<Resume> getAllSorted() {
-        ArrayList<Resume> resumes = new ArrayList<>(List.of(Arrays.copyOf(storage, countResumes)));
-        doSort(resumes);
-        return resumes;
     }
 
     public final int size() {

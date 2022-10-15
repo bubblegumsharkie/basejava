@@ -4,9 +4,18 @@ import org.resumebase.exceptions.ExistStorageException;
 import org.resumebase.exceptions.NotExistStorageException;
 import org.resumebase.model.Resume;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public abstract class AbstractStorage implements Storage {
+
+    private static final Comparator<Resume> RESUME_COMPARATOR = (o1, o2) -> {
+        if (o1.getFullName().equals(o2.getFullName())) {
+            return o1.getUuid().compareTo(o2.getUuid());
+        }
+        return o1.getFullName().compareTo(o2.getFullName());
+    };
 
     protected abstract Object getSearchKey(String uuid);
 
@@ -56,12 +65,12 @@ public abstract class AbstractStorage implements Storage {
         return searchKey;
     }
 
-    public final void doSort(List<Resume> a) {
-        a.sort((r1, r2) -> {
-            if (r1.getFullName().equals(r2.getFullName())) {
-                return r1.getUuid().compareTo(r2.getUuid());
-            }
-            return r1.getFullName().compareTo(r2.getFullName());
-        });
+    public final List<Resume> getAllSorted() {
+        ArrayList<Resume> resumes = getResumes();
+        resumes.sort(RESUME_COMPARATOR);
+        return resumes;
     }
+
+    public abstract ArrayList<Resume> getResumes();
+
 }
