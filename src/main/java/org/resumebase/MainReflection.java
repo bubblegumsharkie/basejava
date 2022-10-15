@@ -8,7 +8,7 @@ import java.util.Arrays;
 
 public class MainReflection {
     public static void main(String[] args) throws IllegalAccessException, InvocationTargetException {
-        Resume r = new Resume();
+        Resume r = new Resume("Stub Name");
         Field declaredField = r.getClass().getDeclaredFields()[0];
         declaredField.setAccessible(true);
         System.out.println(Arrays.toString(r.getClass().getDeclaredMethods()));

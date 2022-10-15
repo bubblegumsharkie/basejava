@@ -119,12 +119,12 @@ public abstract class AbstractStorageTest {
         Assertions.assertThrows(StorageException.class, () -> {
             try {
                 for (int i = 0; i < AbstractArrayStorage.STORAGE_LIMIT; i++) {
-                    storage.save(new Resume());
+                    storage.save(new Resume(NAME_4));
                 }
             } catch (StorageException e) {
                 Assertions.fail();
             }
-            storage.save(new Resume());
+            storage.save(new Resume(NAME_4));
         });
     }
 
