@@ -1,5 +1,6 @@
 package org.resumebase.model;
 
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -15,6 +16,8 @@ public class Resume {
 
 
     public Resume(String uuid, String fullName) {
+        Objects.requireNonNull(uuid, "UUID can't be null");
+        Objects.requireNonNull(fullName, "fullName can't be null");
         this.uuid = uuid;
         this.fullName = fullName;
     }
