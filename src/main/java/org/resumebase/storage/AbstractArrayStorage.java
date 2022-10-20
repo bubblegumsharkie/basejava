@@ -6,40 +6,40 @@ import org.resumebase.model.Resume;
 import java.util.Arrays;
 
 
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     protected static final int STORAGE_LIMIT = 10000;
     protected final Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int countResumes = 0;
 
     @Override
-    protected void doSave(Resume resume, Object searchKey) {
+    protected void doSave(Resume resume, Integer searchKey) {
         if (size() == STORAGE_LIMIT) {
             throw new StorageException("Storage is already full", resume.getUuid());
         } else {
-            saveElement(resume, (Integer) searchKey);
+            saveElement(resume, searchKey);
             countResumes++;
-            System.out.println("The resume with UUID: " + resume.getUuid() + " was successfully saved");
+//            System.out.println("The resume with UUID: " + resume.getUuid() + " was successfully saved");
         }
     }
 
     @Override
-    protected Resume doGet(Object searchKey) {
-        return storage[(int) searchKey];
+    protected Resume doGet(Integer searchKey) {
+        return storage[searchKey];
     }
 
 
     @Override
-    protected void doUpdate(Resume resume, Object searchKey) {
-        storage[(int) searchKey] = resume;
-        System.out.println("The resume with UUID: " + resume.getUuid() + " was successfully updated");
+    protected void doUpdate(Resume resume, Integer searchKey) {
+        storage[searchKey] = resume;
+//        System.out.println("The resume with UUID: " + resume.getUuid() + " was successfully updated");
     }
 
     @Override
-    protected void doDelete(Object searchKey) {
-        String deletedResumeUUID = storage[(int) searchKey].getUuid();
-        deleteElementById((Integer) searchKey);
+    protected void doDelete(Integer searchKey) {
+//        String deletedResumeUUID = storage[searchKey].getUuid();
+        deleteElementById(searchKey);
         countResumes--;
-        System.out.println("The resume with UUID: " + deletedResumeUUID + " was successfully deleted");
+//        System.out.println("The resume with UUID: " + deletedResumeUUID + " was successfully deleted");
     }
 
     public final int size() {
@@ -53,8 +53,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isExisting(Object searchKey) {
-        return (Integer) searchKey >= 0;
+    protected boolean isExisting(Integer searchKey) {
+        return searchKey >= 0;
     }
 
     protected abstract Integer getSearchKey(String uuid);

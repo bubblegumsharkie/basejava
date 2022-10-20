@@ -7,56 +7,62 @@ import org.resumebase.model.Resume;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Logger;
 
-public abstract class AbstractStorage implements Storage {
+public abstract class AbstractStorage<SK> implements Storage {
 
     private static final Comparator<Resume> RESUME_COMPARATOR =
             Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid);
+    private static final Logger LOGGER = Logger.getLogger(AbstractStorage.class.getName());
 
-    protected abstract Object getSearchKey(String uuid);
+    protected abstract SK getSearchKey(String uuid);
 
-    protected abstract void doSave(Resume resume, Object searchKey);
+    protected abstract void doSave(Resume resume, SK searchKey);
 
-    protected abstract Resume doGet(Object searchKey);
+    protected abstract Resume doGet(SK searchKey);
 
-    protected abstract void doUpdate(Resume resume, Object searchKey);
+    protected abstract void doUpdate(Resume resume, SK searchKey);
 
-    protected abstract boolean isExisting(Object searchKey);
+    protected abstract boolean isExisting(SK searchKey);
 
-    protected abstract void doDelete(Object searchKey);
+    protected abstract void doDelete(SK searchKey);
 
     public abstract ArrayList<Resume> getResumes();
 
     public final void save(Resume resume) {
-        Object searchKey = getNotExistingSearchKey(resume.getUuid());
+        LOGGER.info("Save " + resume.toString());
+        SK searchKey = getNotExistingSearchKey(resume.getUuid());
         doSave(resume, searchKey);
     }
 
     public final Resume get(String uuid) {
-        Object searchKey = getExistingSearchKey(uuid);
+        LOGGER.info("Get UUID: " + uuid);
+        SK searchKey = getExistingSearchKey(uuid);
         return doGet(searchKey);
     }
 
     public final void update(Resume resume) {
-        Object searchKey = getExistingSearchKey(resume.getUuid());
+        LOGGER.info("Update " + resume.toString());
+        SK searchKey = getExistingSearchKey(resume.getUuid());
         doUpdate(resume, searchKey);
     }
 
     public final void delete(String uuid) {
-        Object searchKey = getExistingSearchKey(uuid);
+        LOGGER.info("Delete UUID: " + uuid);
+        SK searchKey = getExistingSearchKey(uuid);
         doDelete(searchKey);
     }
 
-    private Object getExistingSearchKey(String uuid) {
-        Object searchKey = getSearchKey(uuid);
+    private SK getExistingSearchKey(String uuid) {
+        SK searchKey = getSearchKey(uuid);
         if (!isExisting(searchKey)) {
             throw new NotExistStorageException(uuid);
         }
         return searchKey;
     }
 
-    private Object getNotExistingSearchKey(String uuid) {
-        Object searchKey = getSearchKey(uuid);
+    private SK getNotExistingSearchKey(String uuid) {
+        SK searchKey = getSearchKey(uuid);
         if (isExisting(searchKey)) {
             throw new ExistStorageException(uuid);
         }
