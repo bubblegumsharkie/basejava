@@ -3,15 +3,14 @@ package org.resumebase.storage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.DisabledIf;
 import org.resumebase.exceptions.ExistStorageException;
 import org.resumebase.exceptions.NotExistStorageException;
-import org.resumebase.exceptions.StorageException;
 import org.resumebase.model.Resume;
 
 import java.util.List;
 
 public abstract class AbstractStorageTest {
+    protected static final String NAME_4 = "Name 4";
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
@@ -19,22 +18,15 @@ public abstract class AbstractStorageTest {
     private static final String NAME_1 = "Name 1";
     private static final String NAME_2 = "Name 2";
     private static final String NAME_3 = "Name 3";
-    private static final String NAME_4 = "Name 4";
     private static final Resume RESUME_1 = new Resume(UUID_1, NAME_1);
     private static final Resume RESUME_2 = new Resume(UUID_2, NAME_2);
     private static final Resume RESUME_3 = new Resume(UUID_3, NAME_3);
     private static final Resume RESUME_4 = new Resume(UUID_4, NAME_4);
-    private final Storage storage;
+    protected final Storage storage;
     private final List<Resume> testSortedResumesArray = List.of(RESUME_1, RESUME_2, RESUME_3);
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
-    }
-
-    private boolean ignoreOverflowTestCondition() {
-        return storage.getClass().equals(ListStorage.class)
-                || storage.getClass().equals(MapUUIDStorage.class)
-                || storage.getClass().equals(MapResumeStorage.class);
     }
 
     @BeforeEach
@@ -110,22 +102,6 @@ public abstract class AbstractStorageTest {
     @Test
     void size() {
         assertSize(3);
-    }
-
-    @Test
-    @DisabledIf(value = "ignoreOverflowTestCondition", disabledReason = "The overflow test is disabled for Map and List realisations")
-    void storageOverflow() {
-        storage.clear();
-        Assertions.assertThrows(StorageException.class, () -> {
-            try {
-                for (int i = 0; i < AbstractArrayStorage.STORAGE_LIMIT; i++) {
-                    storage.save(new Resume(NAME_4));
-                }
-            } catch (StorageException e) {
-                Assertions.fail();
-            }
-            storage.save(new Resume(NAME_4));
-        });
     }
 
     private void assertSize(int size) {

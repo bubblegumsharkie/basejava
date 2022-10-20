@@ -1,6 +1,6 @@
 package org.resumebase.storage;
 
-class SortedArrayStorageTest extends AbstractStorageTest {
+class SortedArrayStorageTest extends AbstractArrayStorageTest {
     public SortedArrayStorageTest() {
         super(new SortedArrayStorage());
     }
