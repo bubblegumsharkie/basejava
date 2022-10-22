@@ -14,7 +14,6 @@ public class Resume {
         this(UUID.randomUUID().toString(), fullName);
     }
 
-
     public Resume(String uuid, String fullName) {
         Objects.requireNonNull(uuid, "UUID can't be null");
         Objects.requireNonNull(fullName, "fullName can't be null");
