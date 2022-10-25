@@ -1,4 +1,4 @@
 package org.resumebase.model;
 
-public class Contacts {
+public abstract class Section {
 }
