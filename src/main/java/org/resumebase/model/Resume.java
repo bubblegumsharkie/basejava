@@ -1,9 +1,7 @@
 package org.resumebase.model;
 
-import java.util.EnumMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.time.Period;
+import java.util.*;
 
 /**
  * Initial resume class
@@ -13,6 +11,7 @@ public class Resume {
     private final String fullName;
     private final Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
     private final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
+    private final List<Period> periods = new ArrayList<>();
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
