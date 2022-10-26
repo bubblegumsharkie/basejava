@@ -2,18 +2,18 @@ package org.resumebase.model;
 
 import java.time.LocalDate;
 
-public class Occupation {
+public class Organisation {
 
     private final String url;
-    private final String companyName;
+    private final String organisationName;
     private final LocalDate startDate;
     private final LocalDate endDate;
     private final String positionTitle;
     private final String description;
 
-    public Occupation(String url, String companyName, LocalDate startDate, LocalDate endDate, String positionTitle, String description) {
+    public Organisation(String url, String organisationName, LocalDate startDate, LocalDate endDate, String positionTitle, String description) {
         this.url = url;
-        this.companyName = companyName;
+        this.organisationName = organisationName;
         this.startDate = startDate;
         this.endDate = endDate;
         this.positionTitle = positionTitle;
@@ -24,7 +24,7 @@ public class Occupation {
     public String toString() {
         return "Occupation{" +
                 "url='" + url + '\'' +
-                ", companyName='" + companyName + '\'' +
+                ", organisationsName='" + organisationName + '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", positionTitle='" + positionTitle + '\'' +
