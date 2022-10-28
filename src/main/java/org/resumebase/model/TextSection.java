@@ -1,6 +1,6 @@
 package org.resumebase.model;
 
-public class TextSection extends Section {
+public class TextSection extends AbstractSection {
     private final String text;
 
     public TextSection(String text) {

@@ -9,7 +9,7 @@ import java.util.*;
 public class Resume {
     private final String uuid;
     private final String fullName;
-    private final Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
+    private final Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
     private final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
     private final List<Period> periods = new ArrayList<>();
 
@@ -59,7 +59,7 @@ public class Resume {
         return contacts.get(type);
     }
 
-    public Section getSectionByType(SectionType type) {
+    public AbstractSection getSectionByType(SectionType type) {
         return sections.get(type);
     }
 }
