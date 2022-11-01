@@ -3,6 +3,7 @@ package org.resumebase.model;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Organization {
 
@@ -23,5 +24,18 @@ public class Organization {
                 ", name='" + name + '\'' +
                 ", periods=" + periods +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Organization that = (Organization) o;
+        return Objects.equals(website, that.website) && Objects.equals(name, that.name) && Objects.equals(periods, that.periods);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(website, name, periods);
     }
 }
