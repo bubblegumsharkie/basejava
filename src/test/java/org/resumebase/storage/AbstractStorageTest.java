@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.resumebase.exceptions.ExistStorageException;
 import org.resumebase.exceptions.NotExistStorageException;
 import org.resumebase.model.Resume;
+import org.resumebase.model.ResumeTestData;
 
 import java.util.List;
 
@@ -18,10 +19,10 @@ public abstract class AbstractStorageTest {
     private static final String NAME_1 = "Name 1";
     private static final String NAME_2 = "Name 2";
     private static final String NAME_3 = "Name 3";
-    private static final Resume RESUME_1 = new Resume(UUID_1, NAME_1);
-    private static final Resume RESUME_2 = new Resume(UUID_2, NAME_2);
-    private static final Resume RESUME_3 = new Resume(UUID_3, NAME_3);
-    private static final Resume RESUME_4 = new Resume(UUID_4, NAME_4);
+    private static final Resume RESUME_1 = ResumeTestData.createResume(UUID_1, NAME_1);
+    private static final Resume RESUME_2 = ResumeTestData.createResume(UUID_2, NAME_2);
+    private static final Resume RESUME_3 = ResumeTestData.createResume(UUID_3, NAME_3);
+    private static final Resume RESUME_4 = ResumeTestData.createResume(UUID_4, NAME_4);
     protected final Storage storage;
     private final List<Resume> testSortedResumesArray = List.of(RESUME_1, RESUME_2, RESUME_3);
 
@@ -46,7 +47,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     void save() {
-        storage.save(new Resume(UUID_4, NAME_4));
+        storage.save(ResumeTestData.createResume(UUID_4, NAME_4));
         assertGet(RESUME_4);
         assertSize(4);
     }

@@ -6,8 +6,8 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-class ResumeTestData {
-    Resume createResume(String uuid, String fullName) {
+public class ResumeTestData {
+    public static Resume createResume(String uuid, String fullName) {
         Resume resume = new Resume(uuid, fullName);
 
         resume.addContact(ContactType.LINK, "https://stub.stub");
