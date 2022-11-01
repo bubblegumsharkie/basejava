@@ -9,7 +9,7 @@ public class MainFile {
     public static void main(String[] args) {
         File file = new File("./.gitignore");
 
-        try(InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(file))) {
+        try (InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(file))) {
             System.out.println(inputStreamReader.read());
         } catch (Exception e) {
             e.printStackTrace();
