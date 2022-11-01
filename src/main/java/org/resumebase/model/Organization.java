@@ -9,12 +9,18 @@ public class Organization {
 
     private final String website;
     private final String name;
-    private final List<Period> periods = new ArrayList<>();
+    private List<Period> periods = new ArrayList<>();
 
     public Organization(String website, String name, LocalDate startDate, LocalDate endDate, String title, String description) {
         this.website = website;
         this.name = name;
         periods.add(new Period(startDate, endDate, title, description));
+    }
+
+    public Organization(String website, String name, List<Period> periods) {
+        this.website = website;
+        this.name = name;
+        this.periods = periods;
     }
 
     @Override

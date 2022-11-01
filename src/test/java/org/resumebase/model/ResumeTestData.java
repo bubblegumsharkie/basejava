@@ -52,14 +52,20 @@ public class ResumeTestData {
                                 DateUtil.of(2010, Month.DECEMBER),
                                 "stub position title",
                                 "stub description"),
-                        new Organization(
-                                "https://stubsiteWork.com",
-                                "Stub name",
-                                DateUtil.of(2011, Month.JANUARY),
-                                DateUtil.of(2021, Month.DECEMBER),
-                                "stub position title",
-                                "stub description"
-                        )))));
+                        new Organization("https://stubsWork.com",
+                                "Stub Name Multiple Pos",
+                                new ArrayList<>(Arrays.asList(
+                                        new Period(
+                                                DateUtil.of(2011, Month.JANUARY),
+                                                DateUtil.of(2015, Month.MARCH),
+                                                "Stub position 1",
+                                                "Stub description 1"),
+                                        new Period(
+                                                DateUtil.of(2015, Month.APRIL),
+                                                DateUtil.of(2021, Month.DECEMBER),
+                                                "Stub position 2",
+                                                "Stub description 2")
+                                )))))));
         return resume;
     }
 }
