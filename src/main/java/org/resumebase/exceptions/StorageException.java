@@ -1,6 +1,5 @@
 package org.resumebase.exceptions;
 
-import java.io.IOException;
 import java.util.logging.Logger;
 
 public class StorageException extends RuntimeException {
