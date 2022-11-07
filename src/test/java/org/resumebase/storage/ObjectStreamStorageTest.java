@@ -7,9 +7,4 @@ class ObjectStreamStorageTest extends AbstractStorageTest {
         super(new ObjectStreamStorage(AbstractStorageTest.STORAGE_DIR));
     }
 
-    @BeforeEach
-    public void setUp() {
-        STORAGE_DIR.mkdir();
-    }
-
 }
