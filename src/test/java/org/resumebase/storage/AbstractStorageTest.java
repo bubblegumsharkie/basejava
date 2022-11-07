@@ -12,7 +12,7 @@ import java.io.File;
 import java.util.List;
 
 public abstract class AbstractStorageTest {
-    protected static final File STORAGE_DIR = new File("/Users/aljoscha/IdeaProjects/basejava/storage");
+    protected static final File STORAGE_DIR = new File("./storage");
     protected static final String NAME_4 = "Name 4";
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
@@ -38,6 +38,7 @@ public abstract class AbstractStorageTest {
         storage.save(RESUME_3);
         storage.save(RESUME_1);
         storage.save(RESUME_2);
+        STORAGE_DIR.mkdir();
     }
 
     @Test

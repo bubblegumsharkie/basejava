@@ -1,5 +1,7 @@
 # [Курс BaseJava (обновленный и переработанный)](http://javaops.ru/reg/basejava)
 
+![badge](https://github.com/bubblegumsharkie/basejava/actions/workflows/github-actions-demo.yml/badge.svg)
+
 ## Разработка web-приложения "База данных резюме"
 
 В данном курсе вы создадите с нуля web-приложение, реализуя разные способы хранения резюме. Проект включает в себя следующее:
