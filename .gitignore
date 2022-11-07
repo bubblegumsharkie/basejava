@@ -2,7 +2,7 @@
 out
 *.iml
 log
-.target
-
+target
+storage
 
 
