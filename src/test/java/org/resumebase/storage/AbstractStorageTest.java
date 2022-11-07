@@ -8,9 +8,11 @@ import org.resumebase.exceptions.NotExistStorageException;
 import org.resumebase.model.Resume;
 import org.resumebase.model.ResumeTestData;
 
+import java.io.File;
 import java.util.List;
 
 public abstract class AbstractStorageTest {
+    protected static final File STORAGE_DIR = new File("/Users/aljoscha/IdeaProjects/basejava/storage");
     protected static final String NAME_4 = "Name 4";
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
@@ -84,7 +86,7 @@ public abstract class AbstractStorageTest {
     @Test
     void update() {
         storage.update(RESUME_1);
-        Assertions.assertSame(RESUME_1, storage.get(UUID_1));
+        Assertions.assertEquals(RESUME_1, storage.get(UUID_1));
     }
 
     @Test
