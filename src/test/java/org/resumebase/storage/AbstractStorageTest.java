@@ -38,6 +38,7 @@ public abstract class AbstractStorageTest {
         storage.save(RESUME_3);
         storage.save(RESUME_1);
         storage.save(RESUME_2);
+        STORAGE_DIR.mkdir();
     }
 
     @Test
