@@ -30,7 +30,9 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected void doSave(Resume resume, File file) {
         try {
-            file.createNewFile();
+            if (!file.createNewFile()) {
+                throw new StorageException("File creating error", file.getName());
+            }
             doWrite(resume, file);
         } catch (IOException e) {
             throw new StorageException("File saving error", file.getName(), e);
@@ -49,7 +51,6 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected void doUpdate(Resume resume, File file) {
         try {
-            file.createNewFile();
             doWrite(resume, file);
         } catch (IOException e) {
             throw new StorageException("File updating error", file.getName(), e);

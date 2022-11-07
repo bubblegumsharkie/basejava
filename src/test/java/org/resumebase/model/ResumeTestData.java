@@ -55,12 +55,12 @@ public class ResumeTestData {
                         new Organization("https://stubsWork.com",
                                 "Stub Name Multiple Pos",
                                 new ArrayList<>(Arrays.asList(
-                                        new Period(
+                                        new Organization.Period(
                                                 DateUtil.of(2011, Month.JANUARY),
                                                 DateUtil.of(2015, Month.MARCH),
                                                 "Stub position 1",
                                                 "Stub description 1"),
-                                        new Period(
+                                        new Organization.Period(
                                                 DateUtil.of(2015, Month.APRIL),
                                                 DateUtil.of(2021, Month.DECEMBER),
                                                 "Stub position 2",
