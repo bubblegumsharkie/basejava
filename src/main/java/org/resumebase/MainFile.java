@@ -7,19 +7,25 @@ public class MainFile {
     public static void main(String[] args) {
 
         File file = new File("./src");
-        listAllFilesIn(file);
+        listAllFilesIn(file, 0);
 
     }
 
-    private static void listAllFilesIn(File path) {
+    private static void listAllFilesIn(File path, int level) {
         File[] files = path.listFiles();
         if (files != null) {
             for (File file : files) {
                 if (file.isDirectory()) {
+                    for (int i = 0; i < level; i++) {
+                        System.out.print(" ");
+                    }
                     System.out.println(file.getName());
-                    listAllFilesIn(file);
+                    listAllFilesIn(file, ++level);
                 } else {
-                    System.out.println(file.getName());
+                    for (int i = 0; i < level; i++) {
+                        System.out.print(" ");
+                    }
+                    System.out.println("-" + file.getName());
                 }
             }
         }

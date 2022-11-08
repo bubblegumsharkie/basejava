@@ -27,7 +27,7 @@ public abstract class AbstractStorage<SK> implements Storage {
 
     protected abstract void doDelete(SK searchKey);
 
-    public abstract ArrayList<Resume> getResumes();
+    public abstract List<Resume> getResumes();
 
     public final void save(Resume resume) {
         LOGGER.info("Save " + resume.toString());
@@ -70,7 +70,7 @@ public abstract class AbstractStorage<SK> implements Storage {
     }
 
     public final List<Resume> getAllSorted() {
-        ArrayList<Resume> resumes = getResumes();
+        List<Resume> resumes = getResumes();
         resumes.sort(RESUME_COMPARATOR);
         return resumes;
     }
