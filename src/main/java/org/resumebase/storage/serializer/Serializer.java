@@ -1,23 +1,14 @@
 package org.resumebase.storage.serializer;
 
-import org.resumebase.exceptions.StorageException;
 import org.resumebase.model.Resume;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
-public class Serializer {
-    public void doWrite(Resume resume, OutputStream outputStream) throws IOException {
-        try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream)) {
-            objectOutputStream.writeObject(resume);
-        }
-    }
+public interface Serializer {
+    void doWrite(Resume resume, OutputStream outputStream) throws IOException;
 
-    public Resume doRead(InputStream inputStream) throws IOException {
-        try (ObjectInputStream objectInputStream = new ObjectInputStream(inputStream)) {
-            return (Resume) objectInputStream.readObject();
-        } catch (ClassNotFoundException e) {
-            throw new StorageException("Error reading file", e);
-        }
+    Resume doRead(InputStream inputStream) throws IOException;
 
-    }
 }

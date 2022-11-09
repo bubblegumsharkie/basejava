@@ -24,6 +24,12 @@ public class FileStorage extends AbstractStorage<File> {
         this.serializer = serializer;
     }
 
+    private static void checkDirectoryReadability(File[] files) {
+        if (files == null) {
+            throw new StorageException("Directory reading error");
+        }
+    }
+
     @Override
     protected File getSearchKey(String uuid) {
         return new File(directory, uuid);
@@ -32,13 +38,11 @@ public class FileStorage extends AbstractStorage<File> {
     @Override
     protected void doSave(Resume resume, File file) {
         try {
-            if (!file.createNewFile()) {
-                throw new StorageException("File creating error", file.getName());
-            }
-            serializer.doWrite(resume, new BufferedOutputStream(new FileOutputStream(file)));
+            file.createNewFile();
         } catch (IOException e) {
-            throw new StorageException("File saving error", file.getName(), e);
+            throw new StorageException("File creating error", file.getName(), e);
         }
+        doUpdate(resume, file);
     }
 
     @Override
@@ -74,9 +78,7 @@ public class FileStorage extends AbstractStorage<File> {
     @Override
     public ArrayList<Resume> getResumes() {
         File[] files = directory.listFiles();
-        if (files == null) {
-            throw new StorageException("Directory reading error");
-        }
+        checkDirectoryReadability(files);
         ArrayList<Resume> resumes = new ArrayList<>();
         for (File file : files) {
             resumes.add(doGet(file));
@@ -87,9 +89,7 @@ public class FileStorage extends AbstractStorage<File> {
     @Override
     public void clear() {
         File[] files = directory.listFiles();
-        if (files == null) {
-            throw new StorageException("Directory reading error");
-        }
+        checkDirectoryReadability(files);
         for (File file : files) {
             doDelete(file);
         }
@@ -98,9 +98,7 @@ public class FileStorage extends AbstractStorage<File> {
     @Override
     public int size() {
         File[] files = directory.listFiles();
-        if (files == null) {
-            throw new StorageException("Directory reading error");
-        }
+        checkDirectoryReadability(files);
         return files.length;
     }
 
