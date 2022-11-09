@@ -47,11 +47,7 @@ public class PathStorage extends AbstractStorage<Path> {
         } catch (IOException e) {
             throw new StorageException("File creating error", getFileName(path), e);
         }
-        try {
-            serializer.doWrite(resume, new BufferedOutputStream(Files.newOutputStream(path)));
-        } catch (IOException e) {
-            throw new StorageException("File saving error", getFileName(path), e);
-        }
+        doUpdate(resume, path);
     }
 
     @Override
@@ -88,33 +84,25 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     public List<Resume> getResumes() {
-        try (Stream<Path> items = getListOfFiles()) {
-            return items.map(this::doGet).collect(Collectors.toList());
-        } catch (IOException e) {
-            throw new StorageException("Path reading error", e);
-        }
+        return getListOfFiles().stream().map(this::doGet).collect(Collectors.toList());
     }
 
     @Override
     public void clear() {
-        try (Stream<Path> items = getListOfFiles()) {
-            items.forEach(this::doDelete);
-        } catch (IOException e) {
-            throw new StorageException("Path reading error", e);
-        }
+        getListOfFiles().forEach(this::doDelete);
     }
 
     @Override
     public int size() {
-        try (Stream<Path> items = getListOfFiles()) {
-            return (int) items.count();
+        return getListOfFiles().size();
+    }
+
+    private List<Path> getListOfFiles() {
+        try (Stream<Path> items = Files.list(directory)) {
+            return items.collect(Collectors.toList());
         } catch (IOException e) {
             throw new StorageException("Path reading error", e);
         }
-    }
-
-    private Stream<Path> getListOfFiles() throws IOException {
-        return Files.list(directory);
     }
 
 }
