@@ -5,9 +5,12 @@ import org.junit.jupiter.api.Test;
 import org.resumebase.exceptions.StorageException;
 import org.resumebase.model.Resume;
 
+import java.util.logging.Logger;
+
 public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
     protected AbstractArrayStorageTest(Storage storage) {
         super(storage);
+        Logger.getLogger(this.toString()).info("= ABSTRACT ARRAY STORAGE TEST =");
     }
 
     @Test
