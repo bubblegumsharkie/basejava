@@ -35,10 +35,10 @@ public abstract class AbstractStorageTest {
     @BeforeEach
     public void setUp() {
         storage.clear();
+        STORAGE_DIR.mkdir();
         storage.save(RESUME_3);
         storage.save(RESUME_1);
         storage.save(RESUME_2);
-        STORAGE_DIR.mkdir();
     }
 
     @Test

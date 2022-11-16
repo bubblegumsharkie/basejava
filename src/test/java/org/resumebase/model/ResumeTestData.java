@@ -23,7 +23,13 @@ public class ResumeTestData {
                         "stub qualification 3"
                 ))));
         resume.addSection(SectionType.PERSONAL, new TextSection("Stub personal"));
-        resume.addSection(SectionType.ACHIEVEMENT, new TextSection("Stub achievement"));
+        resume.addSection(SectionType.ACHIEVEMENT, new ListSection(
+                new ArrayList<>(Arrays.asList(
+                        "stub achievement 1",
+                        "stub achievement 2",
+                        "stub achievement 3"
+                ))
+        ));
         resume.addSection(
                 SectionType.EDUCATION, new OrganizationSection(
                         new ArrayList<>(Arrays.asList(
