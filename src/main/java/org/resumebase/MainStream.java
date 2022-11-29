@@ -1,10 +1,8 @@
 package org.resumebase;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class MainStream {
 
@@ -25,7 +23,7 @@ public class MainStream {
 
     public static void main(String[] args) {
 
-        System.out.println(minValue(new int[]{1, 3, 2, 3, 2, 3}));
+        System.out.println(minValue(new int[]{10, 30, 20, 30, 20, 30}));
         System.out.println(minValue(new int[]{9, 8}));
 
         System.out.println(oddOrEven(Arrays.asList(1, 2, 3, 4, 5)));
@@ -33,6 +31,11 @@ public class MainStream {
     }
 
     private static int minValue(int[] values) {
+        return Arrays.stream(values)
+                .distinct()
+                .sorted()
+                .reduce(0, (a, b) -> 10 * a + b);
+        /*
         return IntStream
                 .range(0, (int) Arrays.stream(values).distinct().count())
                 .boxed()
@@ -47,6 +50,7 @@ public class MainStream {
                 )
                 .mapToInt(Double::intValue)
                 .sum();
+         */
     }
 
     private static List<Integer> oddOrEven(List<Integer> integers) {
