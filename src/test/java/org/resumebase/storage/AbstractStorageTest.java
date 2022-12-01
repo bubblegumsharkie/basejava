@@ -3,6 +3,7 @@ package org.resumebase.storage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.resumebase.config.Config;
 import org.resumebase.exceptions.ExistStorageException;
 import org.resumebase.exceptions.NotExistStorageException;
 import org.resumebase.model.Resume;
@@ -12,7 +13,7 @@ import java.io.File;
 import java.util.List;
 
 public abstract class AbstractStorageTest {
-    protected static final File STORAGE_DIR = new File("./storage");
+    protected static final File STORAGE_DIR = Config.get().getStorageDir();
     protected static final String NAME_4 = "Name 4";
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
