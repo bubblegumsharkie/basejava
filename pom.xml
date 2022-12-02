@@ -41,12 +41,19 @@
             <artifactId>javassist</artifactId>
             <version>3.25.0-GA</version>
         </dependency>
-<!--         JAXB END-->
+        <!--         JAXB END-->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.10</version>
+            <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
         </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.5.1</version>
+        </dependency>
+
     </dependencies>
 
     <properties>
