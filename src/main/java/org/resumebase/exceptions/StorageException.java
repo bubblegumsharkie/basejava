@@ -1,5 +1,6 @@
 package org.resumebase.exceptions;
 
+import java.sql.SQLException;
 import java.util.logging.Logger;
 
 public class StorageException extends RuntimeException {
@@ -26,6 +27,10 @@ public class StorageException extends RuntimeException {
     public StorageException(String message, Exception e) {
         super(message, e);
         this.uuid = null;
+    }
+
+    public StorageException(SQLException e) {
+        this(e.getMessage(), e);
     }
 
     public String getUuid() {
