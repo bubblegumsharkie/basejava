@@ -1,5 +1,6 @@
 package org.resumebase.storage;
 
+import org.resumebase.exceptions.ExistStorageException;
 import org.resumebase.exceptions.NotExistStorageException;
 import org.resumebase.exceptions.StorageException;
 import org.resumebase.model.Resume;
@@ -35,7 +36,7 @@ public class SQLStorage implements Storage {
             preparedStatement.setString(2, resume.getFullName());
             preparedStatement.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ExistStorageException(resume.getUuid());
         }
     }
 
@@ -62,6 +63,9 @@ public class SQLStorage implements Storage {
             preparedStatement.setString(1, resume.getFullName());
             preparedStatement.setString(2, resume.getUuid());
             ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.updateString("full_name", resume.getFullName());
+            resultSet.insertRow();
+            System.out.println("AAAA");
             if (!resultSet.next()) {
                 throw new NotExistStorageException(resume.getUuid());
             }
@@ -77,7 +81,7 @@ public class SQLStorage implements Storage {
             preparedStatement.setString(1, uuid);
             preparedStatement.execute();
         } catch (SQLException e) {
-            throw new StorageException(e);
+            throw new ExistStorageException(uuid);
         }
     }
 
