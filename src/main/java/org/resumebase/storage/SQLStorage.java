@@ -7,6 +7,7 @@ import org.resumebase.model.Resume;
 import org.resumebase.sql.ConnectionFactory;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SQLStorage implements Storage {
@@ -20,10 +21,10 @@ public class SQLStorage implements Storage {
     @Override
     public void clear() {
         try (Connection connection = connectionFactory.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM resume")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("TRUNCATE TABLE resume CASCADE")) {
             preparedStatement.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new StorageException(e);
         }
     }
 
@@ -36,7 +37,10 @@ public class SQLStorage implements Storage {
             preparedStatement.setString(2, resume.getFullName());
             preparedStatement.execute();
         } catch (SQLException e) {
-            throw new ExistStorageException(resume.getUuid());
+            if (e.getSQLState().equals("23505")) {
+                throw  new ExistStorageException(null);
+            }
+            throw new StorageException(e);
         }
     }
 
@@ -49,8 +53,7 @@ public class SQLStorage implements Storage {
             if (!resultSet.next()) {
                 throw new NotExistStorageException(uuid);
             }
-            Resume resume = new Resume(uuid, resultSet.getString("full_name"));
-            return resume;
+            return new Resume(uuid, resultSet.getString("full_name"));
         } catch (SQLException e) {
             throw new StorageException(e);
         }
@@ -62,15 +65,11 @@ public class SQLStorage implements Storage {
              PreparedStatement preparedStatement = connection.prepareStatement("UPDATE resume SET full_name=? WHERE uuid=?")) {
             preparedStatement.setString(1, resume.getFullName());
             preparedStatement.setString(2, resume.getUuid());
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.updateString("full_name", resume.getFullName());
-            resultSet.insertRow();
-            System.out.println("AAAA");
-            if (!resultSet.next()) {
+            if (preparedStatement.executeUpdate() == 0) {
                 throw new NotExistStorageException(resume.getUuid());
             }
         } catch (SQLException e) {
-            throw new NotExistStorageException(resume.getUuid(), e);
+            throw new StorageException(e);
         }
     }
 
@@ -79,9 +78,11 @@ public class SQLStorage implements Storage {
         try (Connection connection = connectionFactory.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM resume WHERE uuid=?")) {
             preparedStatement.setString(1, uuid);
-            preparedStatement.execute();
+            if (preparedStatement.executeUpdate() == 0) {
+                throw new NotExistStorageException(uuid);
+            }
         } catch (SQLException e) {
-            throw new ExistStorageException(uuid);
+            throw new StorageException(e);
         }
     }
 
@@ -99,14 +100,22 @@ public class SQLStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
+        ArrayList<Resume> sortedList = new ArrayList<>();
         try (Connection connection = connectionFactory.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM resume")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM resume ORDER BY uuid")) {
             ResultSet resultSet = preparedStatement.executeQuery();
             System.out.println(resultSet);
+            while (resultSet.next()) {
+                sortedList.add(
+                        new Resume(
+                                resultSet.getString("uuid").trim(),
+                                resultSet.getString("full_name").trim())
+                );
+            }
         } catch (SQLException e) {
             throw new StorageException(e);
         }
-        return null;
+        return sortedList;
     }
 
 }
