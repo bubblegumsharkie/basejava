@@ -46,7 +46,6 @@ public abstract class AbstractStorageTest {
     void clear() {
         storage.clear();
         assertSize(0);
-        Assertions.assertEquals(List.of(), storage.getAllSorted());
     }
 
     @Test
