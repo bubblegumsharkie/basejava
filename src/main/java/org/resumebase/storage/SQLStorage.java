@@ -21,10 +21,7 @@ public class SQLStorage implements Storage {
 
     @Override
     public void clear() {
-        launchStatement("TRUNCATE TABLE resume CASCADE", preparedStatement -> {
-            preparedStatement.execute();
-            return null;
-        });
+        launchStatement("TRUNCATE TABLE resume CASCADE", PreparedStatement::execute);
     }
 
     @Override
@@ -33,7 +30,6 @@ public class SQLStorage implements Storage {
             preparedStatement.setString(1, resume.getUuid());
             preparedStatement.setString(2, resume.getFullName());
             preparedStatement.execute();
-            return null;
         });
 
 //        try (Connection connection = connectionFactory.getConnection();
@@ -57,7 +53,6 @@ public class SQLStorage implements Storage {
                 throw new NotExistStorageException(uuid);
             }
             resume[0] = new Resume(uuid, resultSet.getString("full_name"));
-            return resume[0];
         });
         return resume[0];
 
@@ -83,7 +78,6 @@ public class SQLStorage implements Storage {
             if (preparedStatement.executeUpdate() == 0) {
                 throw new NotExistStorageException(resume.getUuid());
             }
-            return null;
         });
 
 //        try (Connection connection = connectionFactory.getConnection();
@@ -105,7 +99,6 @@ public class SQLStorage implements Storage {
             if (preparedStatement.executeUpdate() == 0) {
                 throw new NotExistStorageException(uuid);
             }
-            return null;
         });
 
 //        try (Connection connection = connectionFactory.getConnection();
@@ -126,7 +119,6 @@ public class SQLStorage implements Storage {
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
             size[0] = resultSet.getInt(1);
-            return null;
         });
         return size[0];
 
@@ -154,7 +146,6 @@ public class SQLStorage implements Storage {
                                 resultSet.getString("full_name").trim())
                 );
             }
-            return null;
         });
 
 //        try (Connection connection = connectionFactory.getConnection();
