@@ -14,10 +14,10 @@ public class SQLHelper {
         this.connectionFactory = connectionFactory;
     }
 
-    public void launchStatement(String statement, StatementExecutor StatementExecutor) {
+    public <T> T launchStatement(String statement, StatementExecutor<T> statementExecutor) {
         try (Connection connection = connectionFactory.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
-            StatementExecutor.execute(preparedStatement);
+            return statementExecutor.execute(preparedStatement);
         } catch (SQLException e) {
             if (e.getSQLState().equals("23505")) {
                 throw new ExistStorageException(null);
@@ -25,4 +25,5 @@ public class SQLHelper {
             throw new StorageException(e);
         }
     }
+
 }
