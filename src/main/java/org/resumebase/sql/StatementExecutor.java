@@ -7,4 +7,3 @@ public interface StatementExecutor<T> {
     T execute(PreparedStatement preparedStatement) throws SQLException;
 
 }
-

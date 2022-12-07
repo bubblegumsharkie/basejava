@@ -24,7 +24,7 @@ public class SQLStorage implements Storage {
 
     @Override
     public void save(Resume resume) {
-        sqlHelper.launchStatement("INSERT INTO resume (uuid, full_name) VALUES (?,?)", preparedStatement -> {
+        sqlHelper.<Void>launchStatement("INSERT INTO resume (uuid, full_name) VALUES (?,?)", preparedStatement -> {
             preparedStatement.setString(1, resume.getUuid());
             preparedStatement.setString(2, resume.getFullName());
             preparedStatement.execute();
@@ -47,7 +47,7 @@ public class SQLStorage implements Storage {
 
     @Override
     public void update(Resume resume) {
-        sqlHelper.launchStatement("UPDATE resume SET full_name=? WHERE uuid=?", preparedStatement -> {
+        sqlHelper.<Void>launchStatement("UPDATE resume SET full_name=? WHERE uuid=?", preparedStatement -> {
             preparedStatement.setString(1, resume.getFullName());
             preparedStatement.setString(2, resume.getUuid());
             if (preparedStatement.executeUpdate() == 0) {
@@ -59,7 +59,7 @@ public class SQLStorage implements Storage {
 
     @Override
     public void delete(String uuid) {
-        sqlHelper.launchStatement("DELETE FROM resume WHERE uuid=?", preparedStatement -> {
+        sqlHelper.<Void>launchStatement("DELETE FROM resume WHERE uuid=?", preparedStatement -> {
             preparedStatement.setString(1, uuid);
             if (preparedStatement.executeUpdate() == 0) {
                 throw new NotExistStorageException(uuid);
@@ -79,7 +79,7 @@ public class SQLStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-        return sqlHelper.launchStatement("SELECT * FROM resume ORDER BY full_name", preparedStatement -> {
+        return sqlHelper.launchStatement("SELECT * FROM resume ORDER BY full_name, uuid", preparedStatement -> {
             ResultSet resultSet = preparedStatement.executeQuery();
             ArrayList<Resume> sortedList = new ArrayList<>();
             while (resultSet.next()) {
