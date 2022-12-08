@@ -10,12 +10,12 @@ public class ResumeTestData {
     public static Resume createResume(String uuid, String fullName) {
         Resume resume = new Resume(uuid, fullName);
 
-//        resume.addContact(ContactType.LINK, "https://stub.stub");
-//        resume.addContact(ContactType.GITHUB, "https://github.com/stub");
-//        resume.addContact(ContactType.MAIL, "stub@basejava.com");
-//        resume.addContact(ContactType.MOBILE, "+79991234567");
-//        resume.addContact(ContactType.SKYPE, "@StubSkype");
-//        resume.addContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/stup");
+        resume.addContact(ContactType.LINK, "https://stub.stub");
+        resume.addContact(ContactType.GITHUB, "https://github.com/stub");
+        resume.addContact(ContactType.MAIL, "stub@basejava.com");
+        resume.addContact(ContactType.MOBILE, "+79991234567");
+        resume.addContact(ContactType.SKYPE, "@StubSkype");
+        resume.addContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/stup");
 //        resume.addSection(SectionType.QUALIFICATIONS, new ListSection(
 //                new ArrayList<>(Arrays.asList(
 //                        "stub qualification 1",
