@@ -1,8 +1,5 @@
 package org.resumebase.sql;
 
-import org.resumebase.exceptions.ExistStorageException;
-import org.resumebase.exceptions.StorageException;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -19,10 +16,7 @@ public class SQLHelper {
              PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
             return statementExecutor.execute(preparedStatement);
         } catch (SQLException e) {
-            if (e.getSQLState().equals("23505")) {
-                throw new ExistStorageException(null);
-            }
-            throw new StorageException(e);
+            throw SQLExceptionHandler.convert(e);
         }
     }
 
