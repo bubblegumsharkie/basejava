@@ -105,8 +105,8 @@ public class SQLStorage implements Storage {
                 ResultSet resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
                     Resume resume = new Resume(
-                            resultSet.getString("uuid").trim(),
-                            resultSet.getString("full_name").trim());
+                            resultSet.getString("uuid"),
+                            resultSet.getString("full_name"));
                     try (PreparedStatement preparedStatementContacts = connection.prepareStatement(
                             "SELECT * FROM contact")) {
                         ResultSet resultSetContacts = preparedStatementContacts.executeQuery();
