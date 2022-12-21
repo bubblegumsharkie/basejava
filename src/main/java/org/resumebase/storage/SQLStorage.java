@@ -60,11 +60,8 @@ public class SQLStorage implements Storage {
                         throw new NotExistStorageException(uuid);
                     }
                     Resume resume = new Resume(uuid, resultSet.getString("full_name"));
-
                     do {
-                        String value = resultSet.getString("value");
-                        ContactType type = ContactType.valueOf(resultSet.getString("type"));
-                        resume.addContact(type, value);
+                        addContactToResume(resultSet, resume);
                     } while (resultSet.next());
                     return resume;
                 });
@@ -73,7 +70,7 @@ public class SQLStorage implements Storage {
 
     @Override
     public void update(Resume resume) {
-        sqlHelper.launchTransaction(connection -> {
+        sqlHelper.<Void>launchTransaction(connection -> {
             try (PreparedStatement preparedStatement = connection.prepareStatement("" +
                     "UPDATE resume SET full_name=? WHERE uuid=?")) {
                 preparedStatement.setString(1, resume.getFullName());
@@ -85,6 +82,7 @@ public class SQLStorage implements Storage {
             try (PreparedStatement preparedStatement = connection.prepareStatement("" +
                     "UPDATE contact SET type=?, value=? WHERE resume_uuid=?")) {
                 insertContactsFromDBtoResume(resume, preparedStatement);
+
             }
             return null;
         });
@@ -125,9 +123,7 @@ public class SQLStorage implements Storage {
                             "SELECT * FROM contact")) {
                         ResultSet resultSetContacts = preparedStatementContacts.executeQuery();
                         while (resultSetContacts.next()) {
-                            String value = resultSetContacts.getString("value");
-                            ContactType type = ContactType.valueOf(resultSetContacts.getString("type"));
-                            resume.addContact(type, value);
+                            addContactToResume(resultSetContacts, resume);
                         }
                     }
                     sortedList.add(resume);
@@ -145,6 +141,21 @@ public class SQLStorage implements Storage {
             preparedStatement.addBatch();
         }
         preparedStatement.executeBatch();
+    }
+
+
+    private static void addContactToResume(ResultSet resultSet, Resume resume) throws SQLException {
+        String value = resultSet.getString("value");
+        ContactType type = ContactType.valueOf(resultSet.getString("type"));
+        resume.addContact(type, value);
+    }
+
+    private void deleteContacts(Resume r) {
+        sqlHelper.launchStatement("DELETE FROM contact WHERE resume_uuid=?", preparedStatement -> {
+            preparedStatement.setString(1, r.getUuid());
+            preparedStatement.execute();
+            return null;
+        });
     }
 
 }
