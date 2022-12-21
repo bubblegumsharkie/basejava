@@ -40,7 +40,7 @@ public class SQLStorage implements Storage {
             try (PreparedStatement preparedStatement = connection.prepareStatement("" +
                     "INSERT INTO contact (resume_uuid, type, value)" +
                     " VALUES (?,?,?)")) {
-                insertContactsFromDBtoResume(resume, preparedStatement);
+                insertContactsToResume(resume, preparedStatement);
             }
             return null;
         });
@@ -81,7 +81,7 @@ public class SQLStorage implements Storage {
             }
             try (PreparedStatement preparedStatement = connection.prepareStatement("" +
                     "UPDATE contact SET type=?, value=? WHERE resume_uuid=?")) {
-                insertContactsFromDBtoResume(resume, preparedStatement);
+                insertContactsToResume(resume, preparedStatement);
 
             }
             return null;
@@ -136,7 +136,7 @@ public class SQLStorage implements Storage {
         });
     }
 
-    private void insertContactsFromDBtoResume(Resume resume, PreparedStatement preparedStatement) throws SQLException {
+    private void insertContactsToResume(Resume resume, PreparedStatement preparedStatement) throws SQLException {
         for (Map.Entry<ContactType, String> contact : resume.getContacts().entrySet()) {
             preparedStatement.setString(1, resume.getUuid());
             preparedStatement.setString(2, contact.getKey().name());
@@ -153,7 +153,7 @@ public class SQLStorage implements Storage {
         resume.addContact(type, value);
     }
 
-    private void deleteContacts(Resume r) {
+    private void deleteContactsFromResume(Resume r) {
         sqlHelper.launchStatement("DELETE FROM contact WHERE resume_uuid=?", preparedStatement -> {
             preparedStatement.setString(1, r.getUuid());
             preparedStatement.execute();
