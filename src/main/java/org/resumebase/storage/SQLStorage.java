@@ -108,7 +108,8 @@ public class SQLStorage implements Storage {
                             resultSet.getString("uuid"),
                             resultSet.getString("full_name"));
                     try (PreparedStatement preparedStatementContacts = connection.prepareStatement(
-                            "SELECT * FROM contact;")) {
+                            "SELECT * FROM contact WHERE resume_uuid=?;")) {
+                        preparedStatementContacts.setString(1, resume.getUuid());
                         ResultSet resultSetContacts = preparedStatementContacts.executeQuery();
                         while (resultSetContacts.next()) {
                             addContactsToResume(resume, resultSetContacts);
