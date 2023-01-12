@@ -19,7 +19,7 @@ public class SQLStorage implements Storage {
 
     @Override
     public void clear() {
-        sqlHelper.launchStatement("TRUNCATE TABLE resume CASCADE", PreparedStatement::execute);
+        sqlHelper.launchStatement("TRUNCATE TABLE resume CASCADE;", PreparedStatement::execute);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class SQLStorage implements Storage {
         sqlHelper.<Void>launchTransaction(connection -> {
             try (PreparedStatement preparedStatement = connection.prepareStatement("" +
                     "INSERT INTO resume (uuid, full_name)" +
-                    " VALUES (?,?)")) {
+                    " VALUES (?,?);")) {
                 preparedStatement.setString(1, resume.getUuid());
                 preparedStatement.setString(2, resume.getFullName());
                 preparedStatement.execute();
@@ -63,7 +63,7 @@ public class SQLStorage implements Storage {
     public void update(Resume resume) {
         sqlHelper.launchTransaction(connection -> {
             try (PreparedStatement preparedStatement = connection.prepareStatement("" +
-                    "UPDATE resume SET full_name=? WHERE uuid=?")) {
+                    "UPDATE resume SET full_name=? WHERE uuid=?;")) {
                 preparedStatement.setString(1, resume.getFullName());
                 preparedStatement.setString(2, resume.getUuid());
                 if (preparedStatement.executeUpdate() == 0) {
@@ -78,7 +78,7 @@ public class SQLStorage implements Storage {
 
     @Override
     public void delete(String uuid) {
-        sqlHelper.<Void>launchStatement("DELETE FROM resume WHERE uuid=?", preparedStatement -> {
+        sqlHelper.<Void>launchStatement("DELETE FROM resume WHERE uuid=?;", preparedStatement -> {
             preparedStatement.setString(1, uuid);
             if (preparedStatement.executeUpdate() == 0) {
                 throw new NotExistStorageException(uuid);
@@ -108,7 +108,7 @@ public class SQLStorage implements Storage {
                             resultSet.getString("uuid"),
                             resultSet.getString("full_name"));
                     try (PreparedStatement preparedStatementContacts = connection.prepareStatement(
-                            "SELECT * FROM contact")) {
+                            "SELECT * FROM contact;")) {
                         ResultSet resultSetContacts = preparedStatementContacts.executeQuery();
                         while (resultSetContacts.next()) {
                             addContactsToResume(resume, resultSetContacts);
@@ -131,7 +131,7 @@ public class SQLStorage implements Storage {
 
     private void insertContacts(Connection connection, Resume resume) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement("" +
-                "INSERT INTO contact (resume_uuid, type, value) VALUES (?,?,?)")) {
+                "INSERT INTO contact (resume_uuid, type, value) VALUES (?,?,?);")) {
             for (Map.Entry<ContactType, String> contact : resume.getContacts().entrySet()) {
                 preparedStatement.setString(1, resume.getUuid());
                 preparedStatement.setString(2, contact.getKey().name());
@@ -144,7 +144,7 @@ public class SQLStorage implements Storage {
 
     private void deleteContacts(Connection connection, Resume r) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement("" +
-                "DELETE FROM contact WHERE resume_uuid=?")) {
+                "DELETE FROM contact WHERE resume_uuid=?;")) {
             preparedStatement.setString(1, r.getUuid());
             preparedStatement.execute();
         }

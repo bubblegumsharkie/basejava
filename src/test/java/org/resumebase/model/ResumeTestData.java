@@ -11,7 +11,7 @@ public class ResumeTestData {
         Resume resume = new Resume(uuid, fullName);
 
         resume.addContact(ContactType.LINK, "https://stub.stub");
-        resume.addContact(ContactType.GITHUB, "https://github.com/stub");
+        resume.addContact(ContactType.GITHUB, "https://github.com/" + uuid);
         resume.addContact(ContactType.MAIL, "stub@basejava.com");
         resume.addContact(ContactType.MOBILE, "+79991234567");
         resume.addContact(ContactType.SKYPE, "@StubSkype");
