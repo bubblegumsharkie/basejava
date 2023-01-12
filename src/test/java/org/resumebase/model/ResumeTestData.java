@@ -15,7 +15,7 @@ public class ResumeTestData {
         resume.addContact(ContactType.MAIL, "stub@basejava.com");
         resume.addContact(ContactType.MOBILE, "+79991234567");
         resume.addContact(ContactType.SKYPE, "@StubSkype");
-        resume.addContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/stup");
+        resume.addContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/"+ fullName.split(" ")[0].toLowerCase() + uuid.split("-")[0]);
 //        resume.addSection(SectionType.QUALIFICATIONS, new ListSection(
 //                new ArrayList<>(Arrays.asList(
 //                        "stub qualification 1",

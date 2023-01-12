@@ -56,14 +56,6 @@ public class Resume implements Serializable {
         return contacts;
     }
 
-    public String getContactByType(ContactType type) {
-        return contacts.get(type);
-    }
-
-    public AbstractSection getSectionByType(SectionType type) {
-        return sections.get(type);
-    }
-
     public void addContact(ContactType type, String contact) {
         contacts.put(type, contact);
     }
@@ -77,7 +69,10 @@ public class Resume implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Resume resume = (Resume) o;
-        return Objects.equals(sections, resume.sections) && Objects.equals(contacts, resume.contacts) && Objects.equals(uuid, resume.uuid) && Objects.equals(fullName, resume.fullName);
+        return Objects.equals(sections, resume.sections)
+                && Objects.equals(contacts, resume.contacts)
+                && Objects.equals(uuid, resume.uuid)
+                && Objects.equals(fullName, resume.fullName);
     }
 
     @Override
