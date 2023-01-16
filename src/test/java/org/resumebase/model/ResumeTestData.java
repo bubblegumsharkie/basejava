@@ -16,20 +16,20 @@ public class ResumeTestData {
         resume.addContact(ContactType.MOBILE, "+79991234567");
         resume.addContact(ContactType.SKYPE, "@StubSkype");
         resume.addContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/"+ fullName.split(" ")[0].toLowerCase() + uuid.split("-")[0]);
-//        resume.addSection(SectionType.QUALIFICATIONS, new ListSection(
-//                new ArrayList<>(Arrays.asList(
-//                        "stub qualification 1",
-//                        "stub qualification 2",
-//                        "stub qualification 3"
-//                ))));
-//        resume.addSection(SectionType.PERSONAL, new TextSection("Stub personal"));
-//        resume.addSection(SectionType.ACHIEVEMENT, new ListSection(
-//                new ArrayList<>(Arrays.asList(
-//                        "stub achievement 1",
-//                        "stub achievement 2",
-//                        "stub achievement 3"
-//                ))
-//        ));
+        resume.addSection(SectionType.QUALIFICATIONS, new ListSection(
+                new ArrayList<>(Arrays.asList(
+                        "stub qualification 1" + uuid.split("-")[0],
+                        "stub qualification 2",
+                        "stub qualification 3"
+                ))));
+        resume.addSection(SectionType.PERSONAL, new TextSection("Stub personal"));
+        resume.addSection(SectionType.ACHIEVEMENT, new ListSection(
+                new ArrayList<>(Arrays.asList(
+                        "stub achievement 1" + uuid.split("-")[0],
+                        "stub achievement 2",
+                        "stub achievement 3"
+                ))
+        ));
 //        resume.addSection(
 //                SectionType.EDUCATION, new OrganizationSection(
 //                        new ArrayList<>(Arrays.asList(
