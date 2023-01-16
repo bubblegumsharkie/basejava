@@ -12,6 +12,8 @@ import java.util.Map;
 public class SQLStorage implements Storage {
     private final SQLHelper sqlHelper;
 
+    private static final String STRING_SPLITTER = "/n";
+
     public SQLStorage(String dbUrl, String dbUser, String dbPassword) {
         sqlHelper = new SQLHelper(() -> DriverManager.getConnection(dbUrl, dbUser, dbPassword));
     }
@@ -170,7 +172,7 @@ public class SQLStorage implements Storage {
                     break;
                 case ACHIEVEMENT:
                 case QUALIFICATIONS:
-                    values = List.of(value.split("/n"));
+                    values = List.of(value.split(STRING_SPLITTER));
                     resume.addSection(sectionType, new ListSection(values));
                     break;
                 case EDUCATION:
@@ -207,7 +209,7 @@ public class SQLStorage implements Storage {
                     ListSection value = (ListSection) sectionValue;
                     List<String> items = value.getItems();
                     for (String item : items) {
-                        stringBuilder.append(item).append("/n");
+                        stringBuilder.append(item).append(STRING_SPLITTER);
                     }
                 }
                 if (sectionValue instanceof TextSection) {
