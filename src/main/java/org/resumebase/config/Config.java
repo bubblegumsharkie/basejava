@@ -10,7 +10,7 @@ import java.util.Properties;
 
 public class Config {
 
-    private static final File CONFIG_FILE = new File("./config/resumes.properties");
+    private static final File CONFIG_FILE = new File("config/resumes.properties");
     private static final Config INSTANCE = new Config();
     private final File storageDir;
     private final SQLStorage storage;
