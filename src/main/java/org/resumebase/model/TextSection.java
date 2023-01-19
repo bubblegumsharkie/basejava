@@ -18,6 +18,13 @@ public class TextSection extends AbstractSection {
     }
 
     @Override
+    public String toString() {
+        return "TextSection{" +
+                "text='" + text + '\'' +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

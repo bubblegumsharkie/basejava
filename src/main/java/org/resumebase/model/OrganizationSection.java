@@ -8,7 +8,6 @@ public class OrganizationSection extends AbstractSection {
     private List<Organization> organizations;
 
     public OrganizationSection() {
-
     }
 
     public OrganizationSection(List<Organization> organizations) {
@@ -17,6 +16,13 @@ public class OrganizationSection extends AbstractSection {
 
     public List<Organization> getOrganizations() {
         return organizations;
+    }
+
+    @Override
+    public String toString() {
+        return "OrganizationSection{" +
+                "organizations=" + organizations +
+                '}';
     }
 
     @Override
@@ -30,11 +36,6 @@ public class OrganizationSection extends AbstractSection {
     @Override
     public int hashCode() {
         return Objects.hash(organizations);
-    }
-
-    @Override
-    public String toString() {
-        return organizations.toString();
     }
 
 }

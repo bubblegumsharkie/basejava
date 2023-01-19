@@ -39,11 +39,6 @@ public class Resume implements Serializable {
         return uuid;
     }
 
-    @Override
-    public String toString() {
-        return "UUID: " + uuid + ", Full Name: " + fullName;
-    }
-
     public String getFullName() {
         return fullName;
     }
@@ -62,6 +57,16 @@ public class Resume implements Serializable {
 
     public void addSection(SectionType type, AbstractSection section) {
         sections.put(type, section);
+    }
+
+    @Override
+    public String toString() {
+        return "Resume{" +
+                "sections=" + sections +
+                ", contacts=" + contacts +
+                ", uuid='" + uuid + '\'' +
+                ", fullName='" + fullName + '\'' +
+                '}';
     }
 
     @Override
