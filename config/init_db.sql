@@ -21,5 +21,5 @@ CREATE TABLE section
 );
 
 CREATE UNIQUE INDEX contact_uuid_type_index ON contact (resume_uuid, type);
-CREATE UNIQUE INDEX section_uuid_type_index ON section (resume_uuid, type);
+CREATE UNIQUE INDEX section_uuid_type_index ON section (resume_uuid, section_type);
 
