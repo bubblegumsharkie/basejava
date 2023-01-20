@@ -156,7 +156,6 @@ public class SQLStorage implements Storage {
         String value = resultSetSections.getString("section_value");
         List<String> values;
         if (value != null) {
-            try {
                 SectionType sectionType = SectionType.valueOf(resultSetSections.getString("section_type"));
                 switch (sectionType) {
                     case PERSONAL:
@@ -173,8 +172,6 @@ public class SQLStorage implements Storage {
                         // TODO: Implement OrganizationSection here
                         break;
                 }
-            } catch (IllegalArgumentException e) {
-            }
         }
 
     }
