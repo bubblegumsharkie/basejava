@@ -48,7 +48,6 @@ public class SQLStorage implements Storage {
     public Resume get(String uuid) {
         return sqlHelper.launchTransaction(connection -> {
             Resume resume;
-
             try (PreparedStatement preparedStatement = connection.prepareStatement("" +
                     "SELECT * FROM resume r" +
                     " LEFT JOIN contact c " +
@@ -156,24 +155,23 @@ public class SQLStorage implements Storage {
         String value = resultSetSections.getString("section_value");
         List<String> values;
         if (value != null) {
-                SectionType sectionType = SectionType.valueOf(resultSetSections.getString("section_type"));
-                switch (sectionType) {
-                    case PERSONAL:
-                    case OBJECTIVE:
-                        resume.addSection(sectionType, new TextSection(value));
-                        break;
-                    case ACHIEVEMENT:
-                    case QUALIFICATIONS:
-                        values = List.of(value.split(STRING_SPLITTER));
-                        resume.addSection(sectionType, new ListSection(values));
-                        break;
-                    case EDUCATION:
-                    case EXPERIENCE:
-                        // TODO: Implement OrganizationSection here
-                        break;
-                }
+            SectionType sectionType = SectionType.valueOf(resultSetSections.getString("section_type"));
+            switch (sectionType) {
+                case PERSONAL:
+                case OBJECTIVE:
+                    resume.addSection(sectionType, new TextSection(value));
+                    break;
+                case ACHIEVEMENT:
+                case QUALIFICATIONS:
+                    values = List.of(value.split(STRING_SPLITTER));
+                    resume.addSection(sectionType, new ListSection(values));
+                    break;
+                case EDUCATION:
+                case EXPERIENCE:
+                    // TODO: Implement OrganizationSection here
+                    break;
+            }
         }
-
     }
 
     private void insertContactsToResume(Resume resume, Connection connection) throws SQLException {
@@ -188,7 +186,6 @@ public class SQLStorage implements Storage {
             preparedStatement.executeBatch();
         }
     }
-
 
     private void insertSectionsToResume(Resume resume, Connection connection) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(("" +
