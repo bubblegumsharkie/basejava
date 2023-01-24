@@ -38,4 +38,5 @@ public class Config {
     public SQLStorage getStorage() {
         return storage;
     }
+
 }
