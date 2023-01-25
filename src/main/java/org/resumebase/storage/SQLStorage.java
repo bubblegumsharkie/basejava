@@ -234,5 +234,4 @@ public class SQLStorage implements Storage {
         deleteAttributes(connection, "DELETE FROM section WHERE resume_uuid=?;", resume);
     }
 
-
 }
