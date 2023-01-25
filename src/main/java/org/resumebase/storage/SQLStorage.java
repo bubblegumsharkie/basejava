@@ -194,7 +194,6 @@ public class SQLStorage implements Storage {
                 AbstractSection sectionValue = section.getValue();
                 SectionType sectionType = section.getKey();
                 String resultString = "";
-
                 switch (sectionType) {
                     case PERSONAL:
                     case OBJECTIVE:
@@ -220,20 +219,20 @@ public class SQLStorage implements Storage {
         }
     }
 
-    private void deleteContactsFromResume(Resume resume, Connection connection) throws SQLException {
-        try (PreparedStatement preparedStatement = connection.prepareStatement("" +
-                "DELETE FROM contact WHERE resume_uuid=?;")) {
+    private void deleteAttributes(Connection connection, String sql, Resume resume) throws SQLException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, resume.getUuid());
             preparedStatement.execute();
         }
     }
 
-    private void deleteSectionsFromResume(Resume resume, Connection connection) throws SQLException {
-        try (PreparedStatement preparedStatement = connection.prepareStatement("" +
-                "DELETE FROM section WHERE resume_uuid=?;")) {
-            preparedStatement.setString(1, resume.getUuid());
-            preparedStatement.execute();
-        }
+    private void deleteContactsFromResume(Resume resume, Connection connection) throws SQLException {
+        deleteAttributes(connection, "DELETE FROM contact WHERE resume_uuid=?;", resume);
     }
+
+    private void deleteSectionsFromResume(Resume resume, Connection connection) throws SQLException {
+        deleteAttributes(connection, "DELETE FROM section WHERE resume_uuid=?;", resume);
+    }
+
 
 }
