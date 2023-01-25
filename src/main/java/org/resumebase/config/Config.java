@@ -10,7 +10,7 @@ import java.util.Properties;
 
 public class Config {
 
-    private static final File CONFIG_FILE = new File("./config/resumes.properties");
+    private static final File CONFIG_FILE = new File(getHomeDir() + "/config/resumes.properties");
     private static final Config INSTANCE = new Config();
     private final File storageDir;
     private final SQLStorage storage;
@@ -29,6 +29,15 @@ public class Config {
 
     public static Config get() {
         return INSTANCE;
+    }
+
+    private static File getHomeDir() {
+        String homeDir = System.getProperty("homeDir");
+        File file = new File(homeDir == null ? "." : homeDir);
+        if (!file.isDirectory()) {
+            throw new IllegalStateException(file.getAbsolutePath() + " is not a directory");
+        }
+        return file;
     }
 
     public File getStorageDir() {
