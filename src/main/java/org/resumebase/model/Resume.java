@@ -84,4 +84,8 @@ public class Resume implements Serializable {
     public int hashCode() {
         return Objects.hash(sections, contacts, uuid, fullName);
     }
+
+    public String getContact(ContactType type) {
+        return contacts.get(type);
+    }
 }
