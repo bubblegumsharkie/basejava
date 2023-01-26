@@ -17,6 +17,7 @@
             <th>Email</th>
         </tr>
         <c:forEach items="${resumes}" var="resume">
+            <jsp:useBean id="resume" type="org.resumebase.model.Resume"/>
             <tr>
                 <td>
                     <a href="resume?uuid=${resume.getUuid()}">
