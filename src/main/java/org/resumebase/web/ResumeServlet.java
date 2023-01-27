@@ -22,23 +22,22 @@ public class ResumeServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("resumes", storage.getAllSorted());
-        request.getRequestDispatcher("/WEB-INF/jsp/list.jsp").forward(request, response);
-
-//        request.setCharacterEncoding("UTF-8");
-//        response.setCharacterEncoding("UTF-8");
-//        response.setContentType("text/html; charset=UTF-8");
-//        PrintWriter writer = response.getWriter();
-//
-//        writer.println("<table>");
-//        writer.write("<tr><th>UUID</th>");
-//        writer.write("<th>Name</th></tr>");
-//
-//        for (Resume r : storage.getAllSorted()) {
-//            writer.write("<tr><td>" + r.getUuid() + "</td>");
-//            writer.write("<td>" + r.getFullName() + "</td></tr>");
-//        }
-//        writer.println("</table>");
+        String uuid = request.getParameter("uuid");
+        String action = request.getParameter("action");
+        if (action == null) {
+            request.setAttribute("resumes", storage.getAllSorted());
+            request.getRequestDispatcher("/WEB-INF/jsp/list.jsp").forward(request, response);
+            return;
+        }
+        switch (action) {
+            case "delete":
+                storage.delete(uuid);
+                break;
+            case "view":
+            case "edit":
+            default:
+                throw new IllegalArgumentException("Action " + action + " is illegal");
+        }
     }
 
     @Override
