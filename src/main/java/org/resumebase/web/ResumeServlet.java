@@ -1,6 +1,7 @@
 package org.resumebase.web;
 
 import org.resumebase.config.Config;
+import org.resumebase.model.Resume;
 import org.resumebase.storage.Storage;
 
 import javax.servlet.ServletConfig;
@@ -29,6 +30,7 @@ public class ResumeServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/jsp/list.jsp").forward(request, response);
             return;
         }
+        Resume resume = storage.get(uuid);
         switch (action) {
             case "delete":
                 storage.delete(uuid);
