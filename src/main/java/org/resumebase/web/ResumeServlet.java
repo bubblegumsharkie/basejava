@@ -30,13 +30,14 @@ public class ResumeServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/jsp/list.jsp").forward(request, response);
             return;
         }
-        Resume resume = storage.get(uuid);
+        Resume resume;
         switch (action) {
             case "delete":
                 storage.delete(uuid);
                 break;
             case "view":
             case "edit":
+                resume = storage.get(uuid);
             default:
                 throw new IllegalArgumentException("Action " + action + " is illegal");
         }
